@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Variation Auto Encoder是在Auto Encoder的基础上改进的，从一个特征降维模型转变为一个图像生成模型。 Auto Encoder 📌Auto Encoder的整体结构是什么？Auto Encoder的训练&#x2F;测试过程是什么？Auto Encoder的数学推理是什么？  Autoencoder最早的提出是在1986年，由Rumelhart, Hinton和Wil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【生成模型基础】01-AE、VAE、VQ-VAE">
+<meta property="og:url" content="http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/index.html">
+<meta property="og:site_name" content="Cheng&#39;s Blog">
+<meta property="og:description" content="Variation Auto Encoder是在Auto Encoder的基础上改进的，从一个特征降维模型转变为一个图像生成模型。 Auto Encoder 📌Auto Encoder的整体结构是什么？Auto Encoder的训练&#x2F;测试过程是什么？Auto Encoder的数学推理是什么？  Autoencoder最早的提出是在1986年，由Rumelhart, Hinton和Wil">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_B8w8bf5VR8.png">
+<meta property="og:image" content="http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_PLY7tIe4A0.png">
+<meta property="og:image" content="http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_NgNMWFrRQY.png">
+<meta property="og:image" content="http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_D9dK7RaTvd.png">
+<meta property="article:published_time" content="2023-03-04T04:09:01.121Z">
+<meta property="article:modified_time" content="2023-03-04T04:09:54.681Z">
+<meta property="article:author" content="Jiaxiang Cheng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_B8w8bf5VR8.png">
+
+
+<link rel="canonical" href="http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/","path":"2023/03/04/【生成模型基础】01-AE、VAE、VQ-VAE/【生成模型基础】01-AE、VAE、VQ-VAE_mcetZpZEDDErAipdPZWnPd/","title":"【生成模型基础】01-AE、VAE、VQ-VAE"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【生成模型基础】01-AE、VAE、VQ-VAE | Cheng's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Cheng's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Auto-Encoder"><span class="nav-number">1.</span> <span class="nav-text">Auto Encoder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Auto-Encoder%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">Auto Encoder整体结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Auto-Encoder%E8%AE%AD%E7%BB%83-x2F-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">Auto Encoder训练&#x2F;测试过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Auto-Encoder%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">Auto Encoder数学推理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Variation-Auto-Encoder"><span class="nav-number">2.</span> <span class="nav-text">Variation Auto Encoder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Variation-Auto-Encoder%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">Variation Auto Encoder整体结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Variation-Auto-Encoder%E7%9A%84%E8%AE%AD%E7%BB%83-x2F-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">Variation Auto Encoder的训练&#x2F;测试过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Variation-Auto-Encoder%E7%9A%84%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86"><span class="nav-number">2.3.</span> <span class="nav-text">Variation Auto Encoder的数学推理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vector-Quantized-Variational-AutoEncoder"><span class="nav-number">3.</span> <span class="nav-text">Vector Quantized-Variational AutoEncoder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector-Quantized-Variational-AutoEncoder%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">Vector Quantized-Variational AutoEncoder整体结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector-Quantized-Variation-Auto-Encoder%E7%9A%84%E8%AE%AD%E7%BB%83-x2F-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">Vector Quantized-Variation Auto Encoder的训练&#x2F;测试过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector-Quantized-Variation-Auto-Encoder%E7%9A%84%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">Vector Quantized-Variation Auto Encoder的数学推理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Summary"><span class="nav-number">4.</span> <span class="nav-text">Quick Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jiaxiang Cheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jiaxiang Cheng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cheng's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【生成模型基础】01-AE、VAE、VQ-VAE | Cheng's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【生成模型基础】01-AE、VAE、VQ-VAE
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-03-04 12:09:01 / Modified: 12:09:54" itemprop="dateCreated datePublished" datetime="2023-03-04T12:09:01+08:00">2023-03-04</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Variation Auto Encoder是在Auto Encoder的基础上改进的，从一个特征降维模型转变为一个图像生成模型。</p>
+<h2 id="Auto-Encoder"><a href="#Auto-Encoder" class="headerlink" title="Auto Encoder"></a>Auto Encoder</h2><blockquote>
+<p>📌Auto Encoder的整体结构是什么？<br>Auto Encoder的训练&#x2F;测试过程是什么？<br>Auto Encoder的数学推理是什么？</p>
+</blockquote>
+<p>Autoencoder最早的提出是在1986年，由Rumelhart, Hinton和Williams共同发表的论文”Learning Representations by Back-Propagating Errors”中。该论文中提出的Autoencoder是一种基于神经网络的无监督学习算法，用于数据降维和特征学习。</p>
+<p>值得说明的是，Autoencoder不能直接用于生成，这是因为Encoder和Decoder之间的隐变量是一个用于特定图像重建的向量，而不是概率分布。</p>
+<h3 id="Auto-Encoder整体结构"><a href="#Auto-Encoder整体结构" class="headerlink" title="Auto Encoder整体结构"></a>Auto Encoder整体结构</h3><p>Auto Encoder由Encoder和Decoder两个模块组成，它们的内部结构均采用MLP多层感知机实现。整体的结构十分简单，由于中间变量z的维度往往比输入变量x的维度小很多，因此可以将整体看作一个Bottleneck结构。</p>
+<p><img src="/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_B8w8bf5VR8.png"></p>
+<h3 id="Auto-Encoder训练-x2F-测试过程"><a href="#Auto-Encoder训练-x2F-测试过程" class="headerlink" title="Auto Encoder训练&#x2F;测试过程"></a>Auto Encoder训练&#x2F;测试过程</h3><p>训练过程：输入变量x（n维）经过Encoder降维后输出中间变量z（m维|m&lt;n），再将中间变量z输入Decoder升维后输出变量x’（n维）；求x’和x的均方误差，采用梯度下降更新Encoder和Decoder，获得最终模型。</p>
+<p>测试过程：获得训练好的Encoder，输入数据x进行降维输出z，即需要的结果。该低维空间向量可以做其它应用，例如识别、检测等。再次强调，由于z是特定向量，所以无法做生成。</p>
+<h3 id="Auto-Encoder数学推理"><a href="#Auto-Encoder数学推理" class="headerlink" title="Auto Encoder数学推理"></a>Auto Encoder数学推理</h3><p>数学推理部分仅有关于损失函数的推理，其为均方损失误差。</p>
+<p>$$<br>MSE&#x3D;\frac{1}{n} \sum_{i&#x3D;1}^{n} (x_i-x’_i)^2<br>$$</p>
+<h2 id="Variation-Auto-Encoder"><a href="#Variation-Auto-Encoder" class="headerlink" title="Variation Auto Encoder"></a>Variation Auto Encoder</h2><blockquote>
+<p>📌Variation Auto Encoder的整体结构是什么？<br>Variation Auto Encoder的训练&#x2F;测试过程是什么？<br>Variation Auto Encoder的数学推理是什么？</p>
+</blockquote>
+<p>Encoder-decoder是一个具备创造性的框架，当然不能局限于特征降维这一件事情。针对Auto Encoder的中间向量不是概率分布，Variation Auto Encoder使得中间向量z服从正态分布，从而实现生成图像。但是直接假设中间向量z服从正态分布，会导致Encoder无法求梯度。那么作者是如何解决这个问题的？让我们继续读下去一探究竟。</p>
+<h3 id="Variation-Auto-Encoder整体结构"><a href="#Variation-Auto-Encoder整体结构" class="headerlink" title="Variation Auto Encoder整体结构"></a>Variation Auto Encoder整体结构</h3><p>不难看出的是，Variation Auto Encoder和Auto Encoder的整体结构是十分相似的，都是由一个Encoder和一个Decoder组成的，区别在于前者的Encoder不再直接输出中间向量z，而是输出一对均值和标准差，配合标准的正态分布构$\epsilon$成一个服从正态分布的z。</p>
+<p><img src="/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_PLY7tIe4A0.png"></p>
+<p>Encoder和Decoder的结构可以选择卷积神经网络（CNN）或者多层感知机（MLP）。</p>
+<h3 id="Variation-Auto-Encoder的训练-x2F-测试过程"><a href="#Variation-Auto-Encoder的训练-x2F-测试过程" class="headerlink" title="Variation Auto Encoder的训练&#x2F;测试过程"></a>Variation Auto Encoder的训练&#x2F;测试过程</h3><p>训练流程：输入变量x（高维）经过Encoder输出均值和标准差，再和标准正态分布$ \epsilon<br>  $构成服从正态分布的中间向量z；将z输入Decoder输出变量x’（高维）；考虑输出变量x’和输入变量x的误差，以及中间向量z分布和z的先验分布的偏差来进行优化。</p>
+<p>测试流程：保留Decoder，从z的先验分布采样噪音，输入进去获得变量x’，即生成的图像。</p>
+<h3 id="Variation-Auto-Encoder的数学推理"><a href="#Variation-Auto-Encoder的数学推理" class="headerlink" title="Variation Auto Encoder的数学推理"></a>Variation Auto Encoder的数学推理</h3><p>数学推理的过程主要考虑损失函数是怎么构建的，在该文章中用到了ELBO概念，即考虑一个关于KL散度和重建损失。我们根据上述训练过程不难看出，KL散度对应的是z后验分布和z的先验分布的KL散度，重建损失对应的是生成图像和原图的偏差。ELBO的公式如下，前者可使用MSE或者交叉熵计算，后者则采用KL散度计算。</p>
+<p>$$<br>ELBO &#x3D; Eq(z|x)[log p(x|z)] - KL(q(z|x) || p(z))<br>$$</p>
+<p>值得一提的是，ELBO和损失函数并不划等号。对于ELBO，我们希望尽可能地最大化；而对于损失函数，我们希望尽可能地最小化。</p>
+<p>$$<br>\begin{align*}<br>L &amp;&#x3D; L_{recon} + KL(q_{\varphi}(z|x), p(z)) \<br>&amp;&#x3D; MSE(x,x’) + KL(q_{\varphi}(z|x), p(z))<br>\end{align*}<br>$$</p>
+<h2 id="Vector-Quantized-Variational-AutoEncoder"><a href="#Vector-Quantized-Variational-AutoEncoder" class="headerlink" title="Vector Quantized-Variational AutoEncoder"></a>Vector Quantized-Variational AutoEncoder</h2><p>Vector Quantized-Variational AutoEncoder和Variational AutoEncoder最主要的区别是后者想学习到的是一个连续的隐空间，而前者想学习到是离散的隐空间。</p>
+<blockquote>
+<p>📌Vector Quantized-Variation Auto Encoder的整体结构是什么？<br>Vector Quantized-Variation Auto Encoder的训练&#x2F;测试过程是什么？<br>Vector Quantized-Variation Auto Encoder的数学推理是什么？</p>
+</blockquote>
+<h3 id="Vector-Quantized-Variational-AutoEncoder整体结构"><a href="#Vector-Quantized-Variational-AutoEncoder整体结构" class="headerlink" title="Vector Quantized-Variational AutoEncoder整体结构"></a>Vector Quantized-Variational AutoEncoder整体结构</h3><p>该算法的整体结构包括三部分，分别为Encoder、Codebook和Decoder；Encoder和Decoder负责对图像编码和对隐空间变量解码。Codebook内含的向量可以理解为离散隐空间的基础向量。</p>
+<p><img src="/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_NgNMWFrRQY.png"></p>
+<p>Codebook中的隐向量的数量是有限的，重建大量的x是困难。因此可以考虑排列组合的方式，Encoder和Decoder均选择CNN结构，使得输出的中间变量z（m×n×d），对应有m×n个$z_d$向量在Codebook中根据向量最小距离寻找对应的向量，构成一个新的中间变量$z_q$（m×n×d）。</p>
+<h3 id="Vector-Quantized-Variation-Auto-Encoder的训练-x2F-测试过程"><a href="#Vector-Quantized-Variation-Auto-Encoder的训练-x2F-测试过程" class="headerlink" title="Vector Quantized-Variation Auto Encoder的训练&#x2F;测试过程"></a>Vector Quantized-Variation Auto Encoder的训练&#x2F;测试过程</h3><p>训练过程：输入图像x进入Encoder，输出$z_e(x)$，从Codebook中获取对应向量构成$z_q(x)$，输入Decoder获得重建图像；重建图像x’和输入图像x计算均方误差进行反传，Codebook采用指数滑动平均进行更新，计算$z_e(x)$和Codebook向量的误差进行反传；最终获取训练好的Encoder、Codebook和Decoder。</p>
+<p>测试过程：从Codebook中获取对应向量构成$z_q(x)$，输入Decoder获得重建图像。</p>
+<p>问题在于如何获取对应的向量呢？如果我获取的向量是随机选择，那么生成的图像肯定是十分混乱的。为了获得我们想要的图像，还需要训练一个自回归模型，让选择的$z_{q_i}$是有关联的。作者在这里选择训练Pixel CNN（开个坑，留着以后更，具体看是怎么实现的）。</p>
+<h3 id="Vector-Quantized-Variation-Auto-Encoder的数学推理"><a href="#Vector-Quantized-Variation-Auto-Encoder的数学推理" class="headerlink" title="Vector Quantized-Variation Auto Encoder的数学推理"></a>Vector Quantized-Variation Auto Encoder的数学推理</h3><p>首先是关于VQ-VAE的损失函数，由三部分组成，分别是重建损失（老生常谈），Codebook损失（我们是要更新Codebook的），Commitment损失（为了靠近Codebook构建出的一个损失）。损失函数公式如下。</p>
+<p>$$<br>L&#x3D;logp(x|z_q(x)) + (sg[z_e(x)]-e)^2 + \beta(z_e(x)-sg[e])^2<br>$$</p>
+<ul>
+<li>重建损失：上式第一项，均方误差损失或者交叉熵损失。用于训练Encoder和Decoder。</li>
+<li>Codebook损失：上述第二项，因为重建损失无法训练到Codebook，因此提出针对该损失的目标函数。sg表示$z_e(x)$作为常数，不进行梯度更新。用于训练Codebook。</li>
+<li>Commitment损失：上述第三项，如果不这样的损失，使得Encoder的输出靠近Codebook，那和Auto Encoder就没有什么区别了。用于训练Encoder。</li>
+</ul>
+<p>提出损失函数后，不难发现Codebook损失和Commitment损失是一个矛盾体，因此作者提出用指数滑动平均的思路代替Codebook损失。那怎么代替呢？我们一起来看一下。</p>
+<p><img src="/2023/03/04/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80%E3%80%9101-AE%E3%80%81VAE%E3%80%81VQ-VAE_mcetZpZEDDErAipdPZWnPd/image_D9dK7RaTvd.png"></p>
+<p>例如$e_1$有个$n_1&#x3D;4$个z向量接近，因此可以通过计算的方式得到$e_1$。指数平均滑动公式如下。</p>
+<p>$$<br>ema &#x3D; beta * ema + (1 - beta) * x<br>$$</p>
+<p>其中，<code>ema</code>表示当前的指数滑动平均值，<code>beta</code>是一个衰减因子，一般取值为0.99或者0.999，<code>x</code>表示当前的词向量。通过该方式，不断更新e的分子和分母，通过该方式实现对Codebook的更新。</p>
+<p>值得注意的是，$n_i$可能等于0，无法作为分母。因此作者引用拉普拉斯平滑，在分母添加$\epsilon &gt; 0$，防止分母等于0。</p>
+<h2 id="Quick-Summary"><a href="#Quick-Summary" class="headerlink" title="Quick Summary"></a>Quick Summary</h2><ul>
+<li>Auto Encoder提出了优秀的Encoder-Decoder架构，实现了对数据的降维处理，但不能用于生成。</li>
+<li>Variation Auto Encoder保留原有架构，实现了连续的隐空间，从而实现生成任务。变分体现在隐空间的分布是由Encoder输出的标准差和方差决定的，因此隐空间变量分布是一个函数，而对函数求导则是变分。其中使用的技巧包括重参数技巧。</li>
+<li>Vector Quantized-Variation Auto Encoder保留原有架构的基础上，提出Codebook，实现了离散的隐空间，并引入了一个自回归模型控制图像有序的生成。其中使用的技巧包括指数滑动平均，拉普拉斯平滑。</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/388620573" title="AE, VAE, VQ-VAE, VQ-VAE-2 - 知乎 (zhihu.com)">AE, VAE, VQ-VAE, VQ-VAE-2 - 知乎 (zhihu.com)</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/03/02/%E3%80%90python%E8%BF%9B%E9%98%B6%E3%80%9102-%E5%A4%9A%E8%A1%8C%E6%B3%A8%E9%87%8A%E9%A3%8E%E6%A0%BC%E6%96%87%E6%A1%A3API/" rel="prev" title="【python进阶】02-多行注释风格文档API">
+                  <i class="fa fa-chevron-left"></i> 【python进阶】02-多行注释风格文档API
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiaxiang Cheng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
