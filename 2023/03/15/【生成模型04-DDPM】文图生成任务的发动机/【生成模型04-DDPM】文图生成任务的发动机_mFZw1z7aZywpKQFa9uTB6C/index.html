@@ -1,25 +1,21 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-default-color-scheme=auto>
+
+
+
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arial:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jiaxiang Cheng">
+  <meta name="keywords" content="">
+  
     <meta name="description" content="论文标题：Denoising Diffusion Probabilistic Models 论文链接：Denoising Diffusion Probabilistic Models (neurips.cc) 论文代码：https:&#x2F;&#x2F;github.com&#x2F;labmlai&#x2F;annotated_deep_learning_paper_implementations 读完本文，你能收获以下知识：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【生成模型04|DDPM】文图生成任务的发动机">
@@ -43,179 +39,221 @@
 <meta property="article:published_time" content="2023-03-14T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-03-15T14:03:04.444Z">
 <meta property="article:author" content="Jiaxiang Cheng">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/image_qQSs8mXs4k.png">
+  
+  
+  
+  <title>【生成模型04|DDPM】文图生成任务的发动机 - Cheng&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
-<link rel="canonical" href="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/">
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/","path":"2023/03/15/【生成模型04-DDPM】文图生成任务的发动机/【生成模型04-DDPM】文图生成任务的发动机_mFZw1z7aZywpKQFa9uTB6C/","title":"【生成模型04|DDPM】文图生成任务的发动机"}</script>
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
 
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>【生成模型04|DDPM】文图生成任务的发动机 | Cheng's Blog</title>
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
 
 
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
+<body>
+  
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+  <header>
+    
 
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Cheng's Blog</p>
-      <i class="logo-line"></i>
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheng&#39;s Blog</strong>
     </a>
-  </div>
 
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
     </div>
   </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">7</span></a></li>
-  </ul>
 </nav>
 
-
-
-
-</header>
-        
   
-  <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">整体框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">数学推理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%AF%BC%E5%9B%BE"><span class="nav-number">3.1.</span> <span class="nav-text">逻辑导图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E6%95%A3%E8%BF%87%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">扩散过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%86%E6%89%A9%E6%95%A3%E8%BF%87%E7%A8%8B"><span class="nav-number">3.3.</span> <span class="nav-text">逆扩散过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%86%99%E6%8E%A8%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-number">3.4.</span> <span class="nav-text">手写推理过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%86%E8%8A%82"><span class="nav-number">4.</span> <span class="nav-text">实验细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E7%BB%86%E8%8A%82"><span class="nav-number">4.1.</span> <span class="nav-text">训练细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%87%E6%A0%B7%E7%BB%86%E8%8A%82"><span class="nav-number">4.2.</span> <span class="nav-text">采样细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86"><span class="nav-number">4.3.</span> <span class="nav-text">代码部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg04.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【生成模型04|DDPM】文图生成任务的发动机"></span>
+          
         </div>
-        <!--/noindex-->
 
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Jiaxiang Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">7</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/jiaxiangc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jiaxiangc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-15 00:00" pubdate>
+          March 15, 2023 am
+        </time>
       </span>
+    
   </div>
 
-        </div>
-      </div>
-    </div>
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k words
+        
+      </span>
+    
 
     
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jiaxiang Cheng">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Cheng's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="【生成模型04|DDPM】文图生成任务的发动机 | Cheng's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          【生成模型04|DDPM】文图生成任务的发动机
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          90 mins
+        
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
       
-
-      <time title="Created: 2023-03-15 00:00:00 / Modified: 22:03:04" itemprop="dateCreated datePublished" datetime="2023-03-15T00:00:00+08:00">2023-03-15</time>
-    </span>
-
-  
+    </div>
+  </div>
 </div>
 
-        </div>
-      </header>
+</div>
 
+  </header>
+
+  <main>
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-        <!-- # 【生成模型04|DDPM】文图生成任务的发动机 -->
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【生成模型04|DDPM】文图生成任务的发动机</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <!-- # 【生成模型04|DDPM】文图生成任务的发动机 -->
 <p>论文标题：Denoising Diffusion Probabilistic Models</p>
 <p>论文链接：<a target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper/2020/hash/4c5bcfec8584af0d967f1ab10179ca4b-Abstract.html" title="Denoising Diffusion Probabilistic Models (neurips.cc)">Denoising Diffusion Probabilistic Models (neurips.cc)</a></p>
 <p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/labmlai/annotated_deep_learning_paper_implementations" title="https://github.com/labmlai/annotated_deep_learning_paper_implementations">https://github.com/labmlai/annotated_deep_learning_paper_implementations</a></p>
@@ -243,12 +281,12 @@
 <li>扩散过程：对图像<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>逐渐添加噪声，使其在第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>步时的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">x_T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>服从标准高斯分布，此时<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>较大。</li>
 <li>逆扩散过程：对高斯噪声<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">x_T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>逐渐去噪，使其在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>步后恢复原始图像<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。</li>
 </ul>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/image_qQSs8mXs4k.png" alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/image_qQSs8mXs4k.png" srcset="/img/loading.gif" lazyload alt></p>
 <p>其实这是一个非常直白的思想，无非就是给图像加噪和去噪。难点在于如何通过数学的角度证明，加噪和去噪的过程对于生成一幅图像来说是可行，即能否构造出一个可优化神经网络的损失函数。</p>
 <h2 id="数学推理">数学推理</h2>
 <p>其实很多人在看到复杂的数学推理后感到头疼，是因为没有具体理解推理的每一个步骤究竟表示什么含义。为了让大家更深刻理解数学推理中隐含的逻辑关系，我通过如下所示的图展示了DDPM的数学推理过程。</p>
 <h3 id="逻辑导图">逻辑导图</h3>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/image_sQ_q31YecG.png" alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/image_sQ_q31YecG.png" srcset="/img/loading.gif" lazyload alt></p>
 <h3 id="扩散过程">扩散过程</h3>
 <p>从一个真实的数据分布采样一个数据<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>∼</mo><mi>q</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">x_0 \sim q(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span>，扩散过程定义为一个连续<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>向数据<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>加入很小的高斯噪音的过程，该噪声的标准差和方差是由<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">\beta_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05278em;">β</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0528em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>确定的，这会生成一系列带噪音的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>x</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">x_1,...,x_T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">...</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>图像。当<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>趋向无穷大时，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">x_T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>等价于一个各项独立的高斯分布，公式如下：</p>
 <p class="katex-block "><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>q</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>t</mi></msub><mi mathvariant="normal">∣</mi><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="false">)</mo><mo>=</mo><mi mathvariant="script">N</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>t</mi></msub><mo separator="true">;</mo><msqrt><mrow><mn>1</mn><mo>−</mo><msub><mi>β</mi><mi>t</mi></msub></mrow></msqrt><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>β</mi><mi>t</mi></msub><mi>I</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">q(x_t|x_{t-1}) = \mathcal{N}(x_t;\sqrt{1-\beta_t}x_{t-1}, \beta_tI)
@@ -452,124 +490,377 @@ c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
 M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1589em;"><span></span></span></span></span></span><span class="mord mathnormal">ϵ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mord">∣</span><span class="mord"><span class="mord">∣</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></span></p>
 <h3 id="手写推理过程">手写推理过程</h3>
 <p>看懂前面内容的小伙伴们可以直接跳过。</p>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/Continual%20Learning-27_QfWF7QLrlv.jpg" alt></p>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/7A5A1AE6181BFED36953775B2D6756C2_odt3Vggba1.png" alt></p>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/167B44740F0C3C57559C0BAE5B287487_zqix7J5xKF.png" alt></p>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/96A935071EEEE60E919F25C685C6B6EE_LMXSpktvuw.png" alt></p>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/0A90EB5301874F77A179B0DD5F08EFFA_gXxGIes-jG.png" alt></p>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/23ADB416CA982A74D7B006DD9C45B90C_k5qZMbLPgm.png" alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/Continual%20Learning-27_QfWF7QLrlv.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/7A5A1AE6181BFED36953775B2D6756C2_odt3Vggba1.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/167B44740F0C3C57559C0BAE5B287487_zqix7J5xKF.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/96A935071EEEE60E919F25C685C6B6EE_LMXSpktvuw.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/0A90EB5301874F77A179B0DD5F08EFFA_gXxGIes-jG.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/23ADB416CA982A74D7B006DD9C45B90C_k5qZMbLPgm.png" srcset="/img/loading.gif" lazyload alt></p>
 <h2 id="实验细节">实验细节</h2>
 <h3 id="训练细节">训练细节</h3>
 <p>在DDPM中，训练就称为<em>Training</em>，其对应逆扩散过程。训练过程如<em>Algorithm1</em>所示，已知<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>和前向过程中每一步的噪音<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>（满足标准高斯分布，可以通过边缘概率分布<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>t</mi></msub><mi mathvariant="normal">∣</mi><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">q(x_t|x_0)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>直接计算出)；注意此时的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>并不是按照顺序选取的，而是随机从<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mn>1</mn><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><mi>T</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{1,...,T \}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">...</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mclose">}</span></span></span></span>中选取<code>bacth size</code>个时刻，不断对第五步的损失函数求导，以更新U-Net网络参数。从这里也可以看出，此时的U-Net网络参数是共享的。</p>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/image_nco3s1632S.png" alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/image_nco3s1632S.png" srcset="/img/loading.gif" lazyload alt></p>
 <h3 id="采样细节">采样细节</h3>
 <p>在DDPM中，采样就称为<em>Sampling</em>，其对应逆扩散过程，区别在于此时的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是未知的。采样过程如<em>Algorithm2</em>所示，从<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">N</mi><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>I</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{N}(0,I)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.14736em;">N</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mclose">)</span></span></span></span>随机采样出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">x_T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>作为起始噪声，在每一步获取一个满足标准高斯分布的变量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span>，由逆扩散过程求出的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>θ</mi></msub><mo stretchy="false">(</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><msub><mi>x</mi><mi>t</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p_\theta(x_{t-1}|x_t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>（对应<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><msub><mi>x</mi><mi>t</mi></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">q(x_{t-1}|x_t,x_0)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>）重参数化后，可得<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">x_{t-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6389em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span></span>，然后循环递推，最终获得<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。不难看出，DDPM的优势在于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是由多步随机噪声构成的，这就增强了生成的多样性。</p>
 <h3 id="代码部分">代码部分</h3>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.数据集预处理</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numbers <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_s_curve</span><br><span class="line"></span><br><span class="line">device = torch.device(<span class="string">&quot;cuda:2&quot;</span>)</span><br><span class="line">s_curve, _ = make_s_curve(n_samples=<span class="number">10</span>**<span class="number">4</span>, noise=<span class="number">0.1</span>)</span><br><span class="line">s_curve = s_curve[:, [<span class="number">0</span>, <span class="number">2</span>]]/<span class="number">10.0</span></span><br><span class="line">data = s_curve.T</span><br><span class="line">dataset = torch.Tensor(s_curve).<span class="built_in">float</span>().to(device)</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot</span></span><br><span class="line">plt.figure()</span><br><span class="line">plt.scatter(*data, color=<span class="string">&quot;orange&quot;</span>, edgecolors=<span class="string">&quot;white&quot;</span>)</span><br><span class="line">plt.axis(<span class="string">&quot;off&quot;</span>)</span><br><span class="line">plt.savefig(<span class="string">&quot;数据集预处理.jpg&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/%E6%95%B0%E6%8D%AE%E9%9B%86%E9%A2%84%E5%A4%84%E7%90%86_OQxupqwAt_.jpg" alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/%E6%95%B0%E6%8D%AE%E9%9B%86%E9%A2%84%E5%A4%84%E7%90%86_OQxupqwAt_.jpg" srcset="/img/loading.gif" lazyload alt></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 2.确定超参数值，对应DDPM论文</span></span><br><span class="line">num_steps = <span class="number">100</span></span><br><span class="line"><span class="comment"># beta</span></span><br><span class="line">betas = torch.linspace(-<span class="number">6</span>, <span class="number">6</span>, num_steps).to(device)</span><br><span class="line">betas = torch.sigmoid(betas) * (<span class="number">0.5e-2</span> - <span class="number">1e-5</span>) + <span class="number">1e-5</span></span><br><span class="line"><span class="comment"># alpha, alpha_prod, alpha_prod_previous, alpha_bar_sqrt</span></span><br><span class="line">alphas = <span class="number">1</span> - betas</span><br><span class="line">alphas_prod = torch.cumprod(alphas, <span class="number">0</span>).to(device)</span><br><span class="line"><span class="comment"># alphas_prod_p = torch.cat([torch.tensor([1]).float(), alphas_prod[:-1]], 0).to(device)</span></span><br><span class="line">alpha_bar_sqrt = torch.sqrt(alphas_prod).to(device)</span><br><span class="line"><span class="comment"># one_minus_alpha_bar_log = torch.log(1 - alphas_prod).to(device)</span></span><br><span class="line">one_minus_alpha_bar_sqrt = torch.sqrt(<span class="number">1</span> - alphas_prod).to(device)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 3.扩散过程</span></span><br><span class="line"><span class="comment"># 给定x_0，计算任意t时刻的x_t</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">q_x</span>(<span class="params">x_0, t, device</span>):</span><br><span class="line">    noise = torch.randn_like(x_0).to(device)</span><br><span class="line">    alpha_t = alpha_bar_sqrt[t]</span><br><span class="line">    alpha_1_m_t = one_minus_alpha_bar_sqrt[t]</span><br><span class="line">    <span class="keyword">return</span> alpha_t * x_0 + alpha_1_m_t * noise</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 4.演示扩散过程</span></span><br><span class="line"><span class="comment"># 演示第10,30,100的x_t</span></span><br><span class="line">q_10 = q_x(dataset, <span class="number">10</span>-<span class="number">1</span>, device)</span><br><span class="line">q_40 = q_x(dataset, <span class="number">40</span>-<span class="number">1</span>, device)</span><br><span class="line">q_100 = q_x(dataset, <span class="number">100</span>-<span class="number">1</span>, device)</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot</span></span><br><span class="line">fig, axs = plt.subplots(<span class="number">1</span>, <span class="number">3</span>, figsize=(<span class="number">14</span>, <span class="number">3</span>))</span><br><span class="line">axs[<span class="number">0</span>].scatter(q_10[:, <span class="number">0</span>].cpu(), q_10[:, <span class="number">1</span>].cpu(), color=<span class="string">&quot;orange&quot;</span>, edgecolor=<span class="string">&quot;white&quot;</span>)</span><br><span class="line">axs[<span class="number">0</span>].set_axis_off()</span><br><span class="line">axs[<span class="number">1</span>].scatter(q_40[:, <span class="number">0</span>].cpu(), q_40[:, <span class="number">1</span>].cpu(), color=<span class="string">&quot;orange&quot;</span>, edgecolor=<span class="string">&quot;white&quot;</span>)</span><br><span class="line">axs[<span class="number">1</span>].set_axis_off()</span><br><span class="line">axs[<span class="number">2</span>].scatter(q_100[:, <span class="number">0</span>].cpu(), q_100[:, <span class="number">1</span>].cpu(), color=<span class="string">&quot;orange&quot;</span>, edgecolor=<span class="string">&quot;white&quot;</span>)</span><br><span class="line">axs[<span class="number">2</span>].set_axis_off()</span><br><span class="line">plt.savefig(<span class="string">&quot;演示扩散过程.jpg&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/%E6%BC%94%E7%A4%BA%E6%89%A9%E6%95%A3%E8%BF%87%E7%A8%8B_65oHSlVcNB.jpg" alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/%E6%BC%94%E7%A4%BA%E6%89%A9%E6%95%A3%E8%BF%87%E7%A8%8B_65oHSlVcNB.jpg" srcset="/img/loading.gif" lazyload alt></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 5.构造神经网络</span></span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MLPDiffusion</span>(nn.Module):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, num_steps, num_units=<span class="number">128</span></span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">        <span class="built_in">super</span>(MLPDiffusion, self).__init__()</span><br><span class="line">        <span class="comment"># Encode-decode for x_t</span></span><br><span class="line">        self.linears = nn.ModuleList(</span><br><span class="line">            [</span><br><span class="line">                nn.Linear(<span class="number">2</span>, num_units),</span><br><span class="line">                nn.ReLU(),</span><br><span class="line">                nn.Linear(num_units, num_units),</span><br><span class="line">                nn.ReLU(),</span><br><span class="line">                nn.Linear(num_units, num_units),</span><br><span class="line">                nn.ReLU(),</span><br><span class="line">                nn.Linear(num_units, <span class="number">2</span>),</span><br><span class="line">            ]</span><br><span class="line">        )</span><br><span class="line">        self.step_embeddings = nn.ModuleList(</span><br><span class="line">            [</span><br><span class="line">                nn.Embedding(num_steps, num_units),</span><br><span class="line">                nn.Embedding(num_steps, num_units),</span><br><span class="line">                nn.Embedding(num_steps, num_units),</span><br><span class="line"></span><br><span class="line">            ]</span><br><span class="line">        )</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x_t, t</span>):</span><br><span class="line">        x = x_t</span><br><span class="line">        <span class="keyword">for</span> idx, embedding_layer <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.step_embeddings):</span><br><span class="line">            t_embedding = embedding_layer(t)</span><br><span class="line">            x = self.linears[<span class="number">2</span>*idx](x)</span><br><span class="line">            x += t_embedding</span><br><span class="line">            x = self.linears[<span class="number">2</span>*idx + <span class="number">1</span>](x)</span><br><span class="line">        eps_theta = self.linears[-<span class="number">1</span>](x)</span><br><span class="line">        <span class="keyword">return</span> eps_theta</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 6.构造损失函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">diffusion_loss_fn</span>(<span class="params">model, x_0, alpha_bar_sqrt, one_minus_alpha_bar_sqrt, n_steps, device</span>):</span><br><span class="line">    batch_size = x_0.shape[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    t = torch.randint(<span class="number">0</span>, n_steps, size=(batch_size//<span class="number">2</span>, ))</span><br><span class="line">    t = torch.cat([t, n_steps-<span class="number">1</span>-t], dim=<span class="number">0</span>)</span><br><span class="line">    t = t.unsqueeze(-<span class="number">1</span>).to(device)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># x_0系数</span></span><br><span class="line">    a = alpha_bar_sqrt[t]</span><br><span class="line">    <span class="comment"># eps系数</span></span><br><span class="line">    aml = one_minus_alpha_bar_sqrt[t]</span><br><span class="line"></span><br><span class="line">    e = torch.randn_like(x_0).to(device)</span><br><span class="line">    x_t = x_0 * a + e * aml</span><br><span class="line"></span><br><span class="line">    output = model(x_t, t.squeeze(-<span class="number">1</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> (e - output).square().mean()</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 8.采样</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">p_sample_loop</span>(<span class="params">model, shape, n_steps, betas, one_minus_alpha_bar_sqrt, device</span>):</span><br><span class="line">    cur_x = torch.randn(shape).to(device)</span><br><span class="line">    x_seq = [cur_x]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(n_steps)):</span><br><span class="line">        cur_x = p_sample(model, cur_x, i, betas, one_minus_alpha_bar_sqrt, device)</span><br><span class="line">        x_seq.append(cur_x)</span><br><span class="line">    <span class="keyword">return</span> x_seq</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">p_sample</span>(<span class="params">model, x_t, t, betas, one_minus_alpha_bar_sqrt, device</span>):</span><br><span class="line">    t = torch.tensor([t]).to(device)</span><br><span class="line">    coeff = betas[t] / one_minus_alpha_bar_sqrt[t]</span><br><span class="line">    eps_theta = model(x_t, t)</span><br><span class="line"></span><br><span class="line">    mean = (<span class="number">1</span> / (<span class="number">1</span>-betas[t]).sqrt()) * (x_t - (coeff * eps_theta))</span><br><span class="line"></span><br><span class="line">    z = torch.randn_like(x_t).to(device)</span><br><span class="line">    sigma_t = betas[t].sqrt()</span><br><span class="line"></span><br><span class="line">    sample = mean + sigma_t * z</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sample</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 7.训练</span></span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">128</span></span><br><span class="line">dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=<span class="literal">True</span>)</span><br><span class="line">num_epoch = <span class="number">4000</span></span><br><span class="line"></span><br><span class="line">model = MLPDiffusion(num_steps).to(device)</span><br><span class="line">optimizer = torch.optim.Adam(model.parameters(), lr=<span class="number">1e-3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Starting Training：&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> <span class="built_in">range</span>(num_epoch):</span><br><span class="line">    <span class="keyword">for</span> idx, bacth_x_0 <span class="keyword">in</span> <span class="built_in">enumerate</span>(dataloader):</span><br><span class="line">        <span class="comment"># bacth_x_0 = bacth_x_0</span></span><br><span class="line">        loss = diffusion_loss_fn(model, bacth_x_0, alpha_bar_sqrt, one_minus_alpha_bar_sqrt, num_steps, device)</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        loss.backward()</span><br><span class="line">        torch.nn.utils.clip_grad_norm_(model.parameters(), <span class="number">1.</span>)</span><br><span class="line">        optimizer.step()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># print loss</span></span><br><span class="line">    <span class="keyword">if</span> t % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;Epochs: <span class="subst">&#123;t&#125;</span>, Loss: <span class="subst">&#123;loss&#125;</span>&#x27;</span>)</span><br><span class="line">        <span class="comment"># betas = betas.to(device)</span></span><br><span class="line">        <span class="comment"># one_minus_alpha_bar_sqrt = one_minus_alpha_bar_sqrt.to(device)</span></span><br><span class="line">        x_seq = p_sample_loop(model, dataset.shape, num_steps, betas, one_minus_alpha_bar_sqrt, device)</span><br><span class="line">        fig, axs = plt.subplots(<span class="number">1</span>, <span class="number">10</span>, figsize=(<span class="number">28</span>, <span class="number">3</span>))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">11</span>):</span><br><span class="line">            cur_x = x_seq[i * <span class="number">10</span>].cpu().detach()</span><br><span class="line">            axs[i-<span class="number">1</span>].scatter(cur_x[:, <span class="number">0</span>], cur_x[:, <span class="number">1</span>], color=<span class="string">&quot;orange&quot;</span>, edgecolor=<span class="string">&quot;white&quot;</span>)</span><br><span class="line">            axs[i-<span class="number">1</span>].set_axis_off()</span><br><span class="line">        plt.savefig(<span class="string">f&quot;sample_res/采样过程_<span class="subst">&#123;t//<span class="number">100</span>&#125;</span>.jpg&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/%E9%87%87%E6%A0%B7%E8%BF%87%E7%A8%8B_1_J9ehEooC50.jpg" alt></p>
-<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/%E9%87%87%E6%A0%B7%E8%BF%87%E7%A8%8B_39_IWvRb1aE37.jpg" alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/%E9%87%87%E6%A0%B7%E8%BF%87%E7%A8%8B_1_J9ehEooC50.jpg" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B04-DDPM%E3%80%91%E6%96%87%E5%9B%BE%E7%94%9F%E6%88%90%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%8F%91%E5%8A%A8%E6%9C%BA_mFZw1z7aZywpKQFa9uTB6C/%E9%87%87%E6%A0%B7%E8%BF%87%E7%A8%8B_39_IWvRb1aE37.jpg" srcset="/img/loading.gif" lazyload alt></p>
 <h2 id="总结">总结</h2>
 <p>直接了当的来说，DDPM的最明显的劣势就是慢。它需要进行<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>步采样，这实在太慢了。举一个很简单的例子，在<em>RTX 2080TI</em>上，用GANs一分钟可以生成1k以上的图像，而DDPM却需要二十个小时左右。因此后续有相应的工作致力于在保证生成质量的情况下，加速DDPM的采样，即DDIM。</p>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【生成模型04|DDPM】文图生成任务的发动机</div>
+      <div>http://example.com/2023/03/15/【生成模型04-DDPM】文图生成任务的发动机/【生成模型04-DDPM】文图生成任务的发动机_mFZw1z7aZywpKQFa9uTB6C/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jiaxiang Cheng</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 15, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/16/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-DDIM%E3%80%91%E5%8A%A0%E9%80%9F%EF%BC%8C%E5%86%B2%E5%86%B2%E5%86%B2/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-DDIM%E3%80%91%E5%8A%A0%E9%80%9F%EF%BC%8C%E5%86%B2%E5%86%B2%E5%86%B2_26pJskFAV4B34RPKbkdh5T/" title="【生成模型07|DDIM】加速，冲冲冲">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【生成模型07|DDIM】加速，冲冲冲</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/01/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B01-VAE,VQ-VAE%E3%80%91%E9%9A%90%E7%A9%BA%E9%97%B4%E7%9A%84%E8%80%83%E9%87%8F/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B01-VAE,VQ-VAE%E3%80%91%E9%9A%90%E7%A9%BA%E9%97%B4%E7%9A%84%E8%80%83%E9%87%8F_2Xxqa3rTiSpN78TztuNHom/" title="【生成模型01|VAE,VQ-VAE】隐空间的考量">
+                        <span class="hidden-mobile">【生成模型01|VAE,VQ-VAE】隐空间的考量</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
 
-    
-    
-    
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
 
-    <footer class="post-footer">
 
-        
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2023/03/01/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B01-VAE,VQ-VAE%E3%80%91%E9%9A%90%E7%A9%BA%E9%97%B4%E7%9A%84%E8%80%83%E9%87%8F/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B01-VAE,VQ-VAE%E3%80%91%E9%9A%90%E7%A9%BA%E9%97%B4%E7%9A%84%E8%80%83%E9%87%8F_2Xxqa3rTiSpN78TztuNHom/" rel="prev" title="【生成模型01|VAE,VQ-VAE】隐空间的考量">
-                  <i class="fa fa-chevron-left"></i> 【生成模型01|VAE,VQ-VAE】隐空间的考量
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2023/03/16/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-DDIM%E3%80%91%E5%8A%A0%E9%80%9F%EF%BC%8C%E5%86%B2%E5%86%B2%E5%86%B2/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-DDIM%E3%80%91%E5%8A%A0%E9%80%9F%EF%BC%8C%E5%86%B2%E5%86%B2%E5%86%B2_26pJskFAV4B34RPKbkdh5T/" rel="next" title="【生成模型07|DDIM】加速，冲冲冲">
-                  【生成模型07|DDIM】加速，冲冲冲 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
+  </aside>
+
+
+    </div>
+  </div>
 </div>
 
 
 
 
 
+  
 
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
 </div>
+
+    
+
+    
   </main>
 
-  <footer class="footer">
+  <footer>
     <div class="footer-inner">
-
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Jiaxiang Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
-  </div>
-
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
     </div>
+  
+  
+  
+  
+</div>
+
   </footer>
 
+  <!-- Scripts -->
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="Back to top">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
-
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
 
 
   
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
 
 
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
 
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
-  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
-  <script src="/js/third-party/math/katex.js"></script>
-
-
-
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
 </body>
 </html>
