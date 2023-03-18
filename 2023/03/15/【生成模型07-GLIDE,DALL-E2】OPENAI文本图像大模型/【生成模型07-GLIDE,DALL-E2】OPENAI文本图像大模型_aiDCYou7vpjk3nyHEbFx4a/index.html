@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jiaxiang Cheng">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="论文名称：GLIDE: Towards Photorealistic Image Generation and Editing with Text-Guided Diffusion Models; Hierarchical Text-Conditional Image Generation with CLIP Latents； 论文链接：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2112.107">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【生成模型07|GLIDE,DALL-E2】OPENAI文本图像大模型">
+<meta property="og:url" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/index.html">
+<meta property="og:site_name" content="Cheng&#39;s Blog">
+<meta property="og:description" content="论文名称：GLIDE: Towards Photorealistic Image Generation and Editing with Text-Guided Diffusion Models; Hierarchical Text-Conditional Image Generation with CLIP Latents； 论文链接：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2112.107">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_xJT3iN86wu.png">
+<meta property="og:image" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_yFFOv0Nrq-.png">
+<meta property="og:image" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_Nr4A0o_TfK.png">
+<meta property="og:image" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_jxkb01nJSo.png">
+<meta property="og:image" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_2a3e4fgj2I.png">
+<meta property="og:image" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_gc0Dfy91hZ.png">
+<meta property="article:published_time" content="2023-03-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-18T15:41:15.678Z">
+<meta property="article:author" content="Jiaxiang Cheng">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_xJT3iN86wu.png">
+  
+  
+  
+  <title>【生成模型07|GLIDE,DALL-E2】OPENAI文本图像大模型 - Cheng&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheng&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg04.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【生成模型07|GLIDE,DALL-E2】OPENAI文本图像大模型"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-15 00:00" pubdate>
+          March 15, 2023 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【生成模型07|GLIDE,DALL-E2】OPENAI文本图像大模型</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>论文名称：GLIDE: Towards Photorealistic Image Generation and Editing with Text-Guided Diffusion Models; Hierarchical Text-Conditional Image Generation with CLIP Latents；</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2112.10741" title="https://arxiv.org/abs/2112.10741">https://arxiv.org/abs/2112.10741</a>；<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2204.06125" title="https://arxiv.org/abs/2204.06125">https://arxiv.org/abs/2204.06125</a>；</p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/openai/glide-text2im" title="https://github.com/openai/glide-text2im">https://github.com/openai/glide-text2im</a></p>
+<h2 id="背景知识">背景知识</h2>
+<p><a target="_blank" rel="noopener" href="https://www.wolai.com/v3vpa2L3TGmdbmQGjYhMw2" title="【生成模型05|GD】引导模型如期而至">【生成模型05|GD】引导模型如期而至</a></p>
+<h2 id="GLIDE">GLIDE</h2>
+<p>GLIDE是一个基于文本条件的扩散模型，用于图像生成。作者使用了两种引导图像生成的方法，第一种称为CLIP引导，显然这是外部分类器引导（classifier guided）方法。第二种方法是内部分类器引导（classifier-free guided）。通过实验证明，第二种方法的效果要优于第一种方法的效果，如果你了解过内部分类引导器，就能够明白这是一种可以预见的结果。同时，GLIDE的模型参数是3.5 <em>billion</em>，这远小于DALL-E，但是取得了比DALL-E更好的效果。OPENAI放出了阉割版的GLIDE的源代码，其中模型参数更小，数据集是受到过滤的。</p>
+<p>简单介绍完GLIDE后，我将主要介绍两部分内容，第一部分是CLIP引导是如何实现的，第二部分是GLIDE的训练细节。</p>
+<h3 id="CLIP引导">CLIP引导</h3>
+<p>虽然先前已有工作表明未在噪声图像上训练的CLIP模型能够引导扩散模型的生成过程，但GLIDE仍然使用噪声图像对CLIP模型进行了训练。训练方法也十分简单，对数据集的所有图像进行加噪，此时得到关于加噪后图像-文本对，将它们作为数据对CLIP模型进行训练，最终我们能够得到一个噪声CLIP模型。该模型在不使用额外的数据增强技巧时，表现仍然超过使用了各种技巧的CLIP模型。那么为什么会这样呢？这主要是因为在采样期间遇到的中间态噪声图像已经超出了CLIP模型的认知。</p>
+<p>介绍完CLIP引导后，我将详细介绍GLIDE的训练过程。</p>
+<h3 id="实验细节">实验细节</h3>
+<p>GLIDE训练了一个参数为3.5* billion<em>的基于文本的扩散模型，输出64px × 64px分辨率的图像，又用了1.5</em> billion*的基于文本的上采样扩散模型来增加输出图像的分辨率至 256px × 256px。接下来，我将介绍使用内部分类引导（classifier-free guided）的训练方式和使用外部分类引导（CLIP）的训练方式。</p>
+<p>**内部分类器引导。*<em>GLIDE采用了基础模型ADM，只是将标签信息替换为了文本信息。给定噪声图像<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">x_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>和文本信息<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span>，预测目标为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><msub><mi>x</mi><mi>t</mi></msub><mo separator="true">,</mo><mi>c</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p(x_{t-1}|x_t,c)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">c</span><span class="mclose">)</span></span></span></span>。文本和图像不同，无法直接输入到模型中，需要对其进行处理。GLIDE首先将文本成tokens，然后将其送入到一个transformer模型中，输出的结果将被用于替换ADM模型的标签信息。GLIDE使用的数据集和DALL-E一样，结构上将ADM模型的宽度拓宽至512通道，视觉部分大约是2.3 <em>billion</em>参数，文本部分大约是1.2</em> billion*参数。除此之外，GLIDE还训练了一个1.5 <em>billion</em>参数的上采样扩散模型，用于扩大输出图像的分辨率。该模型同样基于文本限制，只是文本编码器的宽度是1024而不是2048.GLIDE的基本模型一共进行了2.5 M次迭代，批处理大小为2048，用于上采样的模型一共进行了1.6 M次迭代，批处理大小为512。总体来说，GLIDE的训练量大致等同于DALL-E的训练量。</p>
+<p>**微调。**在完成上述训练，作者又使用内部分类引导进行微调，将20%的文本序列置为空序列，此时模型即具备生成基于文本输出图像的能力，又具备无条件的生成图像的能力。</p>
+<p>至此，关于GLIDE(内部分类器引导)的训练过程介绍完毕，接下来是关于外部分类器引导的训练过程。</p>
+<p>**外部分类器引导。**为了产生的更好的引导结果，作者训练了一个基于噪声的CLIP模型。噪声图像的分辨率是64px × 64px，它们的加噪过程和扩散模型的加噪过程相同。有了训练好的基于噪声的CLIP模型后，就可以在不重复训练GLIDE的情况下对生成进行引导。</p>
+<h3 id="实验结果">实验结果</h3>
+<p>GLIDE的贡献在于进行了大量地、大规模的实验，展现出了十分具有竞争力的生成效果。感兴趣的小伙伴可以自行查看GLIDE附录中的大量实验结果，本文仅展示部分不同方法的对比生成结果。</p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_xJT3iN86wu.png" srcset="/img/loading.gif" lazyload alt="从GLIDE中采样出的结果" title="从GLIDE中采样出的结果"></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_yFFOv0Nrq-.png" srcset="/img/loading.gif" lazyload alt="GLIDE的生成图像远好于DALL-E的生成图像，而基于内部分类器引导的结果好于基于CLIP引导的结果" title="GLIDE的生成图像远好于DALL-E的生成图像，而基于内部分类器引导的结果好于基于CLIP引导的结果"></p>
+<h2 id="DALL-E2">DALL-E2</h2>
+<p>DALL-E2是一个二阶段的文本图像生成模型，在文本匹配度和图像写实性上取得了比GLIDE更好的效果。该方法同样是基于内部分类引导器进行训练的，接下来我将介绍DALL-E2的整体框架和图像应用。另外需要声明一下，在论文中作者没有使用DALL-E2名称，而是使用unCLIP名称，但本文中将使用前者。</p>
+<h3 id="整体框架">整体框架</h3>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_Nr4A0o_TfK.png" srcset="/img/loading.gif" lazyload alt="DALL-E2整体框架" title="DALL-E2整体框架"></p>
+<p>首先来看一下DALL-E2的训练数据集形式，它由数据对<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span>构成，其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>表示图像，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>表示图像对应的文本。给定一个图像<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>，能够分别获得CLIP的图像特征向量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">z_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>和文本特征向量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">z_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。</p>
+<p>然后来看一下DALL-E2的整体框架，包括一个先验（prior）和一个解码器（decoder），分别表示两个阶段，如图所示。对于一阶段先验<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><msub><mi>z</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(z_i|y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span>来说，可基于文本<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>输出CLIP图像编码向量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">z_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。对于二阶段解码器<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mi mathvariant="normal">∣</mi><msub><mi>z</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(x|z_i,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span>来说，可基于CLIP图像编码向量$ z_i  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>和文本</mtext></mrow><annotation encoding="application/x-tex">和文本</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord cjk_fallback">和文本</span></span></span></span> y  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>（可选项）生成图像</mtext></mrow><annotation encoding="application/x-tex">（可选项）生成图像</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord cjk_fallback">（可选项）生成图像</span></span></span></span>x$。解码器可以看作是CLIP图像编码器的反转，而先验能够基于文本学习到它自己对应的CLIP图像编码向量。作者还从公式的角度说明了为什么这种二阶段的方式从理论上来讲行得通，具体形式如下：</p>
+<p class="katex-block "><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mi mathvariant="normal">∣</mi><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><msub><mi>z</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mi mathvariant="normal">∣</mi><msub><mi>z</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mi>P</mi><mo stretchy="false">(</mo><msub><mi>z</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(x|y) = P(x,z_i|y)=P(x|z_i,y)P(z_i|y)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span></span></p>
+<p>**解码器。 **解码器使用的模型是扩散模型，即基于CLIP图像编码条件生成图像，具体来说可以认为是GLIDE。为了生成高分辨率，作者训练了两个扩散上采样模型，第一个模型从64px × 64px上采样到256px × 256px，第二个模型从256px × 256px上采样至1024px × 1024px。在此基础上作者堆砌了许多技巧，此处不展开。</p>
+<p>**先验。**为了给解码器输出条件信息，需要训了一个先验模型用于输出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">z_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。作者探索了两种不同的模型种类作为先验模型，第一种是自回归模型（auto regressive，AR），第二种是扩散模型。对于AR来说，CLIP图像编码向量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">z_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>会被转换为一个离散编码的序列，基于文本<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>自回归地预测。对于扩散模型来说，基于文本<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>采样出图像编码向量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">z_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。作者通过实验发现，使用扩散模型的效率和效果相较于自回归模型都更好，因此选择扩散模型作为先验模型。此处需要说明的是，损失函数的建模目标不再是噪声，而是图像编码向量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">z_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，这是因为直接建模噪声的效果并没有建模图像编码向量的效果好，这证明建模何种目标需要考虑具体任务，其损失函数公式如下：</p>
+<p class="katex-block "><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>L</mi><mrow><mi>p</mi><mi>r</mi><mi>i</mi><mi>o</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mi mathvariant="double-struck">E</mi><mrow><mi>t</mi><mo>∼</mo><mo stretchy="false">[</mo><mn>1</mn><mo separator="true">,</mo><mi>T</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><msubsup><mi>z</mi><mi>i</mi><mrow><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>∼</mo><msub><mi>q</mi><mi>t</mi></msub></mrow></msub><mo stretchy="false">[</mo><mo stretchy="false">∥</mo><msub><mi>f</mi><mi>θ</mi></msub><mo stretchy="false">(</mo><msubsup><mi>z</mi><mi>i</mi><mrow><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow></msubsup><mo separator="true">,</mo><mi>t</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>−</mo><msub><mi>z</mi><mi>i</mi></msub><msup><mo stretchy="false">∥</mo><mn>2</mn></msup><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">L_{prior} = \mathbb{E}_{t \sim [1,T],z_i^{(t)} \sim q_t} [\lVert f_\theta(z_i^{(t)},t,y)-z_i \rVert^2]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">or</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.667em;vertical-align:-0.6222em;"></span><span class="mord"><span class="mord mathbb">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3448em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7414em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mrel mtight">∼</span><span class="mopen mtight">[</span><span class="mord mtight">1</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mclose mtight">]</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0591em;"><span style="top:-2.2134em;margin-left:-0.044em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5357em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.0591em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5357em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">t</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3223em;"><span></span></span></span></span></span></span><span class="mrel mtight">∼</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2963em;"><span style="top:-2.357em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6222em;"><span></span></span></span></span></span></span><span class="mopen">[∥</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.4231em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">t</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2769em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">∥</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></span></p>
+<p>至此DALL-E2的整体结构介绍完毕，可以看出DALL-E2实际上就是基于内部分类引导器的扩散模型组成的，只是利用CLIP做了一个图像的特征提取。</p>
+<h3 id="图像应用">图像应用</h3>
+<p>DALL-E2有很多有趣的应用，比如在不改变原图语义和风格的情况进行变更（variations），对两幅图像用不同的比例合成一张图像（interpolations）或者用差异性的文本变更一副图像（text diffs），如图所示。</p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_jxkb01nJSo.png" srcset="/img/loading.gif" lazyload alt="不改变原图语义和风格的情况进行变更" title="不改变原图语义和风格的情况进行变更"></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_2a3e4fgj2I.png" srcset="/img/loading.gif" lazyload alt="两幅图像用不同的比例合成一张图像" title="两幅图像用不同的比例合成一张图像"></p>
+<p><img src="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B07-GLIDE,DALL-E2%E3%80%91OPENAI%E6%96%87%E6%9C%AC%E5%9B%BE%E5%83%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B_aiDCYou7vpjk3nyHEbFx4a/image_gc0Dfy91hZ.png" srcset="/img/loading.gif" lazyload alt="用差异性的文本变更一副图像" title="用差异性的文本变更一副图像"></p>
+<h2 id="总结">总结</h2>
+<p>无论是GLIDE还是DALL-E2，它们本质上都是基于内部分类引导器（classifier-free diffusion）的文本图像算法。其中GLIDE探讨了使用CLIP引导和内部分类引导的效果优劣，结果表明后者的效果更好。而DALL-E2则是利用CLIP将文本和图像编码为隐空间向量，在此基础上使用内部分类引导进行二阶段的生成。需要注意的是，上述两种算法都是贡献了大量实验，以应用为主吧，在方法上没有太多的创新。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【生成模型07|GLIDE,DALL-E2】OPENAI文本图像大模型</div>
+      <div>http://example.com/2023/03/15/【生成模型07-GLIDE,DALL-E2】OPENAI文本图像大模型/【生成模型07-GLIDE,DALL-E2】OPENAI文本图像大模型_aiDCYou7vpjk3nyHEbFx4a/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jiaxiang Cheng</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 15, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/15/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B06-DDIM%E3%80%91%E5%8A%A0%E9%80%9F%EF%BC%8C%E5%86%B2%E5%86%B2%E5%86%B2/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B06-DDIM%E3%80%91%E5%8A%A0%E9%80%9F%EF%BC%8C%E5%86%B2%E5%86%B2%E5%86%B2_26pJskFAV4B34RPKbkdh5T/" title="【生成模型06|DDIM】加速，冲冲冲">
+                        <span class="hidden-mobile">【生成模型06|DDIM】加速，冲冲冲</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
