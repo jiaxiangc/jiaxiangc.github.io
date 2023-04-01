@@ -1,0 +1,629 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/tb_gym01.png">
+  <link rel="icon" href="/img/tb_gym01.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jiaxiang Cheng">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="论文名称：Closed-Loop Memory GAN for Continual Learning 引言 CloGAN用于缓解判别任务的遗忘性和生成任务的遗忘性，前者是为了缓解分类头在类增量设置下的遗忘问题，后者是为了提高生成器生成逼近旧任务的样本质量。可能有人好奇，为什么CloGAN可以缓解两种类型模型的遗忘性问题，因为在持续学习中和生成模型有关的情况是独立的两种。一种是用生成模型缓解判别模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【持续学习01|CloGAN】闭环记忆GAN">
+<meta property="og:url" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/index.html">
+<meta property="og:site_name" content="Cheng&#39;s Blog">
+<meta property="og:description" content="论文名称：Closed-Loop Memory GAN for Continual Learning 引言 CloGAN用于缓解判别任务的遗忘性和生成任务的遗忘性，前者是为了缓解分类头在类增量设置下的遗忘问题，后者是为了提高生成器生成逼近旧任务的样本质量。可能有人好奇，为什么CloGAN可以缓解两种类型模型的遗忘性问题，因为在持续学习中和生成模型有关的情况是独立的两种。一种是用生成模型缓解判别模型">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_F5DVhIbz5u.png">
+<meta property="og:image" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_GHl1d5Wvpw.png">
+<meta property="og:image" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_UwYKqf47ep.png">
+<meta property="og:image" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_hfwic5OcpG.png">
+<meta property="og:image" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_csLoE5kF8B.png">
+<meta property="og:image" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_gxXcymCX0v.png">
+<meta property="og:image" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_Xx9EEtwRm-.png">
+<meta property="article:published_time" content="2023-04-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-01T14:58:09.261Z">
+<meta property="article:author" content="Jiaxiang Cheng">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_F5DVhIbz5u.png">
+  
+  
+  
+  <title>【持续学习01|CloGAN】闭环记忆GAN - Cheng&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"PYTHON"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheng&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg04.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【持续学习01|CloGAN】闭环记忆GAN"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-02 00:00" pubdate>
+          April 2, 2023 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【持续学习01|CloGAN】闭环记忆GAN</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>论文名称：Closed-Loop Memory GAN for Continual Learning</p>
+<h2 id="引言">引言</h2>
+<p>CloGAN用于缓解判别任务的遗忘性和生成任务的遗忘性，前者是为了缓解分类头在类增量设置下的遗忘问题，后者是为了提高生成器生成逼近旧任务的样本质量。可能有人好奇，为什么CloGAN可以缓解两种类型模型的遗忘性问题，因为在持续学习中和生成模型有关的情况是独立的两种。一种是用生成模型缓解判别模型的遗忘问题，例如DGR。一种是用其它持续学习策略缓解生成模型的遗忘问题，例如MeGAN。</p>
+<p>与上述算法不同，CloGAN是基于AC-GAN的持续学习算法，而AC-GAN既能完成生成任务，又能完成判别任务。因此，CloGAN能够缓解两种模型的遗忘性问题。需要说明的是，CloGAN的实验部分主要以分类任务为主。</p>
+<p>当我们阅读一篇和生成相关的持续学习论文时，关注点应当放在生成模型以外的内容，即持续学习的重要策略，这种思考方式有助于我们写出论文的创新点。接下来，我们来阅读CloGAN的整体框架以及方法细节，提炼出对持续学习有益的内容。</p>
+<h2 id="整体框架">整体框架</h2>
+<p>CloGAN在持续学习的类增量设置下，以AC-GAN为基础框架，配合动态存储、生成回放和图像过滤策略，训练生成器和判别（分类）器。总结一下，持续学习的策略是动态存储、生成回放，CloGAN做的是怎么优化动态存储的内容，怎么优化生成器生成的旧样本，因为这对于更好地缓解判别器的遗忘性是有利的，也对于提高生成器生成样本质量是有利的。</p>
+<p><img src="/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_F5DVhIbz5u.png" srcset="/img/loading.gif" lazyload alt="CloGAN整体框架，由AC-GAN，动态存储，图像过滤组成" title="CloGAN整体框架，由AC-GAN，动态存储，图像过滤组成"></p>
+<h2 id="训练细节">训练细节</h2>
+<p>我们围绕CloGAN的整体框架和训练细节，来介绍CloGAN是怎么训练的。</p>
+<ol>
+<li>准备<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>个任务的真实数据集<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>i</mi><mi>T</mi></msubsup></mrow><annotation encoding="application/x-tex">S_i^T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1em;vertical-align:-0.2587em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4413em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2587em;"><span></span></span></span></span></span></span></span></span></span>，缓冲区大小<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>，每个类的数量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">K_c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>；</li>
+<li>用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">S_{t=1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>训练AC-GAN，优化<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>θ</mi><mi>G</mi><mo>∗</mo></msubsup><mtext>，</mtext><msubsup><mi>θ</mi><mrow><mi>D</mi><mo separator="true">,</mo><mi>C</mi></mrow><mo>∗</mo></msubsup><mtext>，</mtext><msubsup><mi>θ</mi><mi>C</mi><mo>∗</mo></msubsup></mrow><annotation encoding="application/x-tex">\theta_G^*，\theta_{D,C}^*，\theta_C^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1059em;vertical-align:-0.4114em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-2.4247em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">G</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2753em;"><span></span></span></span></span></span></span><span class="mord cjk_fallback">，</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-2.4247em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.07153em;">C</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4114em;"><span></span></span></span></span></span></span><span class="mord cjk_fallback">，</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-2.4247em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">C</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2753em;"><span></span></span></span></span></span></span></span></span></span>。</li>
+<li>从<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>t</mi><mrow><mi>r</mi><mi>e</mi><mi>a</mi><mi>l</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_t^{real}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0961em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">re</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>选取样本构造存储数据。</li>
+<li>合并<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>t</mi><mrow><mi>r</mi><mi>e</mi><mi>a</mi><mi>l</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_t^{real}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0961em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">re</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>m</mi><mi>e</mi><mi>m</mi><mi>o</mi><mi>r</mi><mi>y</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_{t-1}^{memory}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1069em;vertical-align:-0.3246em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7823em;"><span style="top:-2.4337em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.1809em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">ory</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3246em;"><span></span></span></span></span></span></span></span></span></span>构成<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>t</mi><mo>∗</mo></msubsup></mrow><annotation encoding="application/x-tex">S_t^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9357em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-2.453em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>，从该数据集选取一批样本<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>t</mi><mrow><mi>i</mi><mo>∗</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_t^{i*}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0717em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-2.453em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mtight">∗</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>，用生成器生成上一个任务的旧数据<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>G</mi><mi>A</mi><mi>N</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_{t-1}^{GAN}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1478em;vertical-align:-0.3064em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4519em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">G</span><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3064em;"><span></span></span></span></span></span></span></span></span></span>并过滤，然后合并<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>t</mi><mrow><mi>i</mi><mo>∗</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_t^{i*}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0717em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-2.453em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mtight">∗</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>G</mi><mi>A</mi><mi>N</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_{t-1}^{GAN}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1478em;vertical-align:-0.3064em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4519em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">G</span><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3064em;"><span></span></span></span></span></span></span></span></span></span>，送入AC-GAN训练，重复步骤直至选取完毕。</li>
+<li>从<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>t</mi><mrow><mi>r</mi><mi>e</mi><mi>a</mi><mi>l</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_t^{real}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0961em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">re</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>m</mi><mi>e</mi><mi>m</mi><mi>o</mi><mi>r</mi><mi>y</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">S_{t-1}^{memory}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1069em;vertical-align:-0.3246em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7823em;"><span style="top:-2.4337em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.1809em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">ory</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3246em;"><span></span></span></span></span></span></span></span></span></span>选取样本构造动态更新存储数据，重复步骤直至训练完毕。</li>
+</ol>
+<p><img src="/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_GHl1d5Wvpw.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>其实CloGAN的训练方法很简单，就是融合了经验回放、生成器生成旧样本的方法缓解遗忘性问题，而且它的AC-GAN只生成上一个任务的数据，如果去除了经验回放策略，那CloGAN不会缓解遗忘性问题，我个人觉得该方法本质上还是经验回放的方法起作用。</p>
+<p><font color="#dd0000">改进点01</font>：能不能让AC-GAN生成之前所有任务的数据，而不是上一个任务的数据，因为只生成上一个任务的数据还是会导致两个模型的遗忘性。</p>
+<h2 id="实验方法">实验方法</h2>
+<p>第一个实验，对比CloGAN（不同动态存储大小）、DGR、MeRGAN、EWC、FGD在MNIST、Fashion、SVHN、E-MNIST数据集上的平均分类准确率结果，CloGAN的结果最好。</p>
+<p><img src="/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_UwYKqf47ep.png" srcset="/img/loading.gif" lazyload alt="对比CloGAN（不同动态存储大小）、DGR、MeRGAN、EWC、FGD在MNIST、Fashion、SVHN、E-MNIST数据集上的平均分类准确率结果" title="对比CloGAN（不同动态存储大小）、DGR、MeRGAN、EWC、FGD在MNIST、Fashion、SVHN、E-MNIST数据集上的平均分类准确率结果"></p>
+<p>第二个实验，讨论AC-GAN生成的上一个任务数据是否有意义，即实验只从动态存储中获取旧数据的结果，作者将该算法称为Frozen-CloGAN，从结果上来看，AC-GAN生成的旧数据是有用的，这说明回放的数据越多越好。</p>
+<p><font color="#dd0000">疑问01</font>：为什么在最后一个任务才展现出明显的差异？想不通，正常来讲差距应该是线性增大才对。</p>
+<p><img src="/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_hfwic5OcpG.png" srcset="/img/loading.gif" lazyload alt="Frozen-CloGAN vs CloGAN" title="Frozen-CloGAN vs CloGAN"></p>
+<p>第三个实验，讨论回放数据都来自真实数据的算法NoGenReplay-Equivalent与同等存储大小的CloGAN，结果竟然是CloGAN好。</p>
+<p><font color="#dd0000">疑问02</font>：震惊我一百年，混合GAN生成数据的回放数据效果竟然比全是回放的数据效果好？不会是瞎回放的数据吧？没开源咱也不知道。</p>
+<p><img src="/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_csLoE5kF8B.png" srcset="/img/loading.gif" lazyload alt="不同回放内容的算法结果对比" title="不同回放内容的算法结果对比"></p>
+<p>第四个实验，CloGAN也可视化了生成器生成的样本结果，可以看出CloGAN生成的样本要比MeRGAN的样本质量好。</p>
+<p><img src="/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_gxXcymCX0v.png" srcset="/img/loading.gif" lazyload alt="CloGAN对比MeRGAN在迭代过程中生成样本质量" title="CloGAN对比MeRGAN在迭代过程中生成样本质量"></p>
+<p>第五个实验，作者提出在每一个任务切换时复制上一个任务的生成器参数，然后把该参数冻结，称为Copy-CloGAN。其实很好理解，不在新任务上训练GAN，那生成的旧任务效果就很好。</p>
+<p><img src="/2023/04/02/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN/%E3%80%90%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A001-CloGAN%E3%80%91%E9%97%AD%E7%8E%AF%E8%AE%B0%E5%BF%86GAN_sm7dRiXgMqyzn1bt2yGiLL/image_Xx9EEtwRm-.png" srcset="/img/loading.gif" lazyload alt="Copy-CloGAN vs CloGAN" title="Copy-CloGAN vs CloGAN"></p>
+<h2 id="总结">总结</h2>
+<p>第一，我没看出来CloGAN哪里形成闭环了，用GAN生成数据训练判别器就是闭环？</p>
+<p>第二，CloGAN的任务有些模糊，即做生成又做判别，直观上不容易理解，好在作者实验都是集中在判别任务上。</p>
+<p>第三，CloGAN的贡献在于通过实验表明了回放数据全部来自真实样本的指标不如真实样本和GAN生成样本混合的指标，虽然我觉得这很反尝试。</p>
+<p>第四，CloGAN的生成效果确实比MeRGAN好，是不是说明知识蒸馏的方法不如经验回放？</p>
+<p>第五，在单头类增量的持续学习设置下，EWC的效果是真的差。据文章描述，单头的输出结点是随着类的增加而增加的，这在代码上要怎么实现？复制前一个任务的两个结点参数到当前任务的四个结点参数，然后以此类推？</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【持续学习01|CloGAN】闭环记忆GAN</div>
+      <div>http://example.com/2023/04/02/【持续学习01-CloGAN】闭环记忆GAN/【持续学习01-CloGAN】闭环记忆GAN_sm7dRiXgMqyzn1bt2yGiLL/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jiaxiang Cheng</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 2, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/01/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B11-VQ-VAE%E3%80%81VQ-GAN%E3%80%91%E7%A6%BB%E6%95%A3%E9%9A%90%E7%A9%BA%E9%97%B4/%E3%80%90%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B11-VQ-VAE%E3%80%81VQ-GAN%E3%80%91%E7%A6%BB%E6%95%A3%E9%9A%90%E7%A9%BA%E9%97%B4_pCmhkTWqE7WKhyY4mz5xo4/" title="【生成模型11|VQ-VAE、VQ-GAN】离散隐空间">
+                        <span class="hidden-mobile">【生成模型11|VQ-VAE、VQ-GAN】离散隐空间</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
