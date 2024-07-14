@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Jiaxiang&#39;s Blogs</title>
+    <link>https://jiaxiangc.github.io/</link>
+    <description>Recent content on Jiaxiang&#39;s Blogs</description>
+    <image>
+      <title>Jiaxiang&#39;s Blogs</title>
+      <url>https://jiaxiangc.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://jiaxiangc.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 15 Oct 2022 11:30:03 +0000</lastBuildDate>
+    <atom:link href="https://jiaxiangc.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Score-based Generative Model</title>
+      <link>https://jiaxiangc.github.io/post/2022-10-01-score_based_model/</link>
+      <pubDate>Sat, 15 Oct 2022 11:30:03 +0000</pubDate>
+      <guid>https://jiaxiangc.github.io/post/2022-10-01-score_based_model/</guid>
+      <description>The content introduced in this article pertains to SMLD, NCSN, DDPM, and SDEs. Before we proceed with the main body of the article, I will first clarify the specific relationships among these concepts for the readers. The SMLD model, proposed by Dr. Song in his 2019 thesis, is a generative method primarily composed of score matching and Langevin dynamics sampling. Given that this method has certain limitations—details of which are presented in the mathematical reasoning section—the author introduced the NCSN method as an improvement.</description>
+    </item>
+    <item>
+      <title>Denoise Diffusion Probability Model</title>
+      <link>https://jiaxiangc.github.io/post/2022-09-01-denoise_diffusion_model/</link>
+      <pubDate>Thu, 15 Sep 2022 11:30:03 +0000</pubDate>
+      <guid>https://jiaxiangc.github.io/post/2022-09-01-denoise_diffusion_model/</guid>
+      <description>Diffusion Models (DM) have achieved remarkable progress in the realms of image, video, and audio processing. This paper delves into the foundational work of the diffusion models, namely the Denoise Diffusion Probability Model (DDPM), and further introduces the widely used rapid sampling technique within diffusion models, the Denoise Diffusion Implicit Model (DDIM). The focus of this paper is on the modeling principles, training processes, and inference methods of DDPM and DDIM.</description>
+    </item>
+  </channel>
+</rss>
