@@ -11,8 +11,22 @@
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Oct 2022 11:30:03 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 Jun 2024 11:30:03 +0000</lastBuildDate>
     <atom:link href="https://jiaxiangc.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Consistency Distillation</title>
+      <link>https://jiaxiangc.github.io/post/2024-06-01-consistency_distillation/</link>
+      <pubDate>Sat, 15 Jun 2024 11:30:03 +0000</pubDate>
+      <guid>https://jiaxiangc.github.io/post/2024-06-01-consistency_distillation/</guid>
+      <description>Diffusion models are multi-step iterative sampling models designed to transition from noise to images along the trajectory of a Probability Flow Ordinary Differential Equation (PF ODE). That is, during the temporal step shift from \([T, ..., 0]\), the images predicted by the diffusion model evolve from a standard Gaussian noise distribution to a clean image distribution. The distributions in the intermediate process lie between Gaussian noise and the image distribution. However, multi-step iterative sampling requires substantial computational resources, which is not conducive to the application of diffusion models.</description>
+    </item>
+    <item>
+      <title>Progressive Step Distillation</title>
+      <link>https://jiaxiangc.github.io/post/2024-05-01-progressive_step_distillation/</link>
+      <pubDate>Wed, 01 May 2024 11:30:03 +0000</pubDate>
+      <guid>https://jiaxiangc.github.io/post/2024-05-01-progressive_step_distillation/</guid>
+      <description>The one-step noise reduction sampling of a student diffusion model that approximates the two- or four-step noise reduction sampling of a teacher model is referred to as progressive distillation. The sampling steps of the student model decrease in the sequence from 128 to 32, then to 8, 4, 2, and finally to 1. Jo, in 2022, introduced Progressive Distillation (PD), marking the inaugural work to propose the ideology of progressive distillation.</description>
+    </item>
     <item>
       <title>Score-based Generative Model</title>
       <link>https://jiaxiangc.github.io/post/2022-10-01-score_based_model/</link>
