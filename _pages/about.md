@@ -17,42 +17,78 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. Suspendisse condimentum, libero vel tempus mattis, risus risus vulputate libero, elementum fermentum mi neque vel nisl. Maecenas facilisis maximus dignissim. Curabitur mattis vulputate dui, tincidunt varius libero luctus eu. Mauris mauris nulla, scelerisque eget massa id, tincidunt congue felis. Sed convallis tempor ipsum rhoncus viverra. Pellentesque nulla orci, accumsan volutpat fringilla vitae, maximus sit amet tortor. Aliquam ultricies odio ut volutpat scelerisque. Donec nisl nisl, porttitor vitae pharetra quis, fringilla sed mi. Fusce pretium dolor ut aliquam consequat. Cras volutpat, tellus accumsan mattis molestie, nisl lacus tempus massa, nec malesuada tortor leo vel quam. Aliquam vel ex consectetur, vehicula leo nec, efficitur eros. Donec convallis non urna quis feugiat.
-
-My research interest includes neural machine translation and computer vision. I have published more than 100 papers at the top international AI conferences with total <a href='https://scholar.google.com/citations?user=DhtAFkwAAAAJ'>google scholar citations <strong><span id='total_cit'>260000+</span></strong></a> (You can also use google scholar badge <a href='https://scholar.google.com/citations?user=DhtAFkwAAAAJ'><img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations"></a>).
+I am a Researcher at **Tencent HY Video World Model Team**, working closely with [Heng Wang](https://scholar.google.com/citations?user=ghmgyewAAAAJ&hl=en) and [Qinglin Lu](https://openreview.net/profile?id=~Qinglin_Lu2). Before that, I was a Research Intern at **ByteDance Intelligent Creation Team**, collaborating with [Jie Wu](https://scholar.google.com/citations?user=MxvLqLcAAAAJ&hl=zh-CN) and [Pan Xie](https://scholar.google.com/citations?user=Z-0EqtgAAAAJ&hl=en). I received my M.S. degree in Artificial Intelligence from [Beihang University](https://www.buaa.edu.cn/) in 2025, and my B.E. degree in Automation from [Xidian University](https://www.xidian.edu.cn/) in 2022. My research interests lie in **Generative Models**, **Post-training**, **Distillation & Acceleration**, and **Video World Models**. I have published papers at top-tier AI conferences such as ICML and AAAI.
 
 
 # 🔥 News
-- *2022.02*: &nbsp;🎉🎉 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2022.02*: &nbsp;🎉🎉 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
+- *2026.05*: &nbsp;🎉 One paper on human image animation accepted by <span style="color:#224b8d; font-weight:bold;">ICML 2026</span>.
+- *2025.10*: &nbsp;🎉 One paper on video diffusion acceleration accepted by <span style="color:#224b8d; font-weight:bold;">AAAI 2026</span>.
+- *2024.12*: &nbsp;🔥 Our [**HunyuanVideo**](https://arxiv.org/abs/2412.03603) is released, a systematic framework for large video generative models.
+- *2024.11*: &nbsp;🏢 Joined <img src="images/tencent_logo.svg" alt="Tencent" style="height:1.2em; vertical-align:middle;"> **Tencent HY** as Researcher.
+- *2024.11*: &nbsp;🎉 One paper ResAdapter accepted by <span style="color:#224b8d; font-weight:bold;">AAAI 2025</span>.
+- *2023.04*: &nbsp;🏢 Joined <img src="images/bytedance_logo.svg" alt="ByteDance" style="height:1.2em; vertical-align:middle;"> **ByteDance Intelligent Creation** as Research Intern.
+
+# 📝 Recent Works
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">arXiv 2026</div><img src='images/faithfulfaces.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[FaithfulFaces: Pose-Faithful Facial Identity Preservation for Text-to-Video Generation](https://arxiv.org/abs/2605.04702)
+
+Yuanzhi Wang, Xuhua Ren, **Jiaxiang Cheng**, Bing Ma, Kai Yu, Sen Liang, Wenyue Li, Tianxiang Zheng, Qinglin Lu, Zhen Cui
+
+<a href="https://arxiv.org/abs/2605.04702"><img src="https://img.shields.io/badge/Project-Page-blue?style=flat-square&logo=googlechrome&logoColor=white"></a> <a href="https://arxiv.org/abs/2605.04702"><img src="https://img.shields.io/badge/arXiv-2605.04702-b31b1b?style=flat-square&logo=arxiv&logoColor=white"></a>
+- A pose-faithful approach for preserving facial identity in text-to-video generation.
+</div>
+</div>
 
 # 📝 Publications 
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2016</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICML 2026</div><img src='images/ipa.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
-[Deep Residual Learning for Image Recognition](https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf)
+[Implicit Preference Alignment for Human Image Animation](https://arxiv.org/abs/2605.07545) <span style="background:#c0392b; color:white; padding:1px 6px; border-radius:3px; font-size:0.8em; font-weight:bold;">CCF-A</span>
 
-**Kaiming He**, Xiangyu Zhang, Shaoqing Ren, Jian Sun
+Yuanzhi Wang, Xuhua Ren, **Jiaxiang Cheng**, Bing Ma, Kai Yu, Tianxiang Zheng, Qinglin Lu, Zhen Cui
 
-[**Project**](https://scholar.google.com/citations?view_op=view_citation&hl=zh-CN&user=DhtAFkwAAAAJ&citation_for_view=DhtAFkwAAAAJ:ALROH1vI_8AC) <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
+<a href="https://arxiv.org/abs/2605.07545"><img src="https://img.shields.io/badge/Project-Page-blue?style=flat-square&logo=googlechrome&logoColor=white"></a> <a href="https://arxiv.org/abs/2605.07545"><img src="https://img.shields.io/badge/arXiv-2605.07545-b31b1b?style=flat-square&logo=arxiv&logoColor=white"></a>
+- A preference alignment framework for human image animation that eliminates the need for paired preference data.
 </div>
 </div>
 
-- [Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet](https://github.com), A, B, C, **CVPR 2020**
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">AAAI 2026</div><img src='images/phased_oae.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
 
-# 🎖 Honors and Awards
-- *2021.10* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2021.09* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
+[Phased One-step Adversarial Equilibrium for Video Diffusion Models](https://arxiv.org/abs/2508.21019) <span style="background:#c0392b; color:white; padding:1px 6px; border-radius:3px; font-size:0.8em; font-weight:bold;">CCF-A</span>
+
+**Jiaxiang Cheng**, Bing Ma, Xuhua Ren, Hongyi Henry Jin, Kai Yu, Peng Zhang, Wenyue Li, Yuan Zhou, Tianxiang Zheng, Qinglin Lu
+
+<a href="https://arxiv.org/abs/2508.21019"><img src="https://img.shields.io/badge/Project-Page-blue?style=flat-square&logo=googlechrome&logoColor=white"></a> <a href="https://arxiv.org/abs/2508.21019"><img src="https://img.shields.io/badge/Code-GitHub-black?style=flat-square&logo=github"></a> <a href="https://arxiv.org/abs/2508.21019"><img src="https://img.shields.io/badge/arXiv-2508.21019-b31b1b?style=flat-square&logo=arxiv&logoColor=white"></a>
+- A novel phased adversarial training framework for one-step video generation with diffusion models.
+</div>
+</div>
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">AAAI 2025</div><img src='images/resadapter.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models](https://arxiv.org/abs/2403.02084) <span style="background:#c0392b; color:white; padding:1px 6px; border-radius:3px; font-size:0.8em; font-weight:bold;">CCF-A</span>
+
+**Jiaxiang Cheng**, Pan Xie, Xin Xia, Jiashi Li, Jie Wu, Yuxi Ren, Huixia Li, Xuefeng Xiao, Min Zheng, Lean Fu
+
+<a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/badge/Project-Page-blue?style=flat-square&logo=googlechrome&logoColor=white"></a> <a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/badge/Code-GitHub-black?style=flat-square&logo=github"></a> <a href="https://arxiv.org/abs/2403.02084"><img src="https://img.shields.io/badge/arXiv-2403.02084-b31b1b?style=flat-square&logo=arxiv&logoColor=white"></a> <a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/github/stars/bytedance/res-adapter?style=social"></a>
+- A plug-and-play resolution adapter for diffusion models that enables arbitrary resolution generation without retraining.
+</div>
+</div>
+
+- [HunyuanVideo: A Systematic Framework for Large Video Generative Models](https://arxiv.org/abs/2412.03603), Weijie Kong, Qi Tian, Zijian Zhang, Rox Min, Zuozhuo Dai, ..., **Jiaxiang Cheng**, et al., **arXiv 2024** \| <a href="https://github.com/Tencent/HunyuanVideo"><img src="https://img.shields.io/github/stars/Tencent/HunyuanVideo?style=social"></a>
+- [Hunyuan-Game: Industrial-grade Intelligent Game Creation Model](https://arxiv.org/abs/2505.14135), Ruihuang Li, Caijin Zhou, Shoujian Zheng, Jianxiang Lu, Jiabin Huang, Comi Chen, Junshu Tang, Guangzheng Xu, Jiale Tao, **Jiaxiang Cheng**, et al., **arXiv 2025**
+- [Beyond Reward Margin: Rethinking and Resolving Likelihood Displacement in Diffusion Models via Video Generation](https://arxiv.org/abs/2511.19049), Ruojun Xu, Yu Kai, Xuhua Ren, **Jiaxiang Cheng**, Bing Ma, Tianxiang Zheng, Qinglin Lu, **arXiv 2025**
+- [PersonaVlog: Personalized Multimodal Vlog Generation with Multi-Agent Collaboration and Iterative Self-Correction](https://arxiv.org/abs/2508.13602), Xiaolu Hou, Bing Ma, **Jiaxiang Cheng**, Xuhua Ren, Kai Yu, Wenyue Li, Tianxiang Zheng, Qinglin Lu, **arXiv 2025**
 
 # 📖 Educations
-- *2019.06 - 2022.04 (now)*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2015.09 - 2019.06*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
+- *2022.09 - 2025.06*, M.S. in Artificial Intelligence, Beihang University, Beijing, China. 
+- *2018.09 - 2022.06*, B.E. in Automation, Xidian University, Xi'an, China. 
 
-# 💬 Invited Talks
-- *2021.06*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2021.03*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  \| [\[video\]](https://github.com/)
-
-# 💻 Internships
-- *2019.05 - 2020.02*, [Lorem](https://github.com/), China.
+# 💻 Experience
+- *2024.11 - Present*, Researcher, <img src="images/tencent_logo.svg" alt="Tencent" style="height:1.2em; vertical-align:middle;"> [Tencent HY](https://www.tencent.com/) Video World Model Team, Beijing, China.
+- *2023.04 - 2024.10*, Research Intern, <img src="images/bytedance_logo.svg" alt="ByteDance" style="height:1.2em; vertical-align:middle;"> [ByteDance](https://www.bytedance.com/) Intelligent Creation Team, Beijing, China.
