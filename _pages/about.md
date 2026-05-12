@@ -17,7 +17,9 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-I am a Researcher at **Tencent HY Video World Model Team**, working closely with [Heng Wang](https://scholar.google.com/citations?user=ghmgyewAAAAJ&hl=en) and [Qinglin Lu](https://openreview.net/profile?id=~Qinglin_Lu2). Before that, I was a Research Intern at **ByteDance Intelligent Creation Team**, collaborating with [Jie Wu](https://scholar.google.com/citations?user=MxvLqLcAAAAJ&hl=zh-CN) and [Pan Xie](https://scholar.google.com/citations?user=Z-0EqtgAAAAJ&hl=en). I received my M.S. degree in Artificial Intelligence from [Beihang University](https://www.buaa.edu.cn/) in 2025, and my B.E. degree in Automation from [Xidian University](https://www.xidian.edu.cn/) in 2022. My research interests lie in **Generative Models**, **Post-training**, **Distillation & Acceleration**, and **Video World Models**. I have published papers at top-tier AI conferences such as ICML and AAAI.
+I am a Researcher at **Tencent HY**, working with [Heng Wang](https://scholar.google.com/citations?user=ghmgyewAAAAJ&hl=en) in the Video World Model Team. Previously, I worked with [Qinglin Lu](https://openreview.net/profile?id=~Qinglin_Lu2) in the Video Application Team, and was a Research Intern at **ByteDance Intelligent Creation Team**, collaborating with [Jie Wu](https://scholar.google.com/citations?user=MxvLqLcAAAAJ&hl=zh-CN) and [Pan Xie](https://scholar.google.com/citations?user=Z-0EqtgAAAAJ&hl=en). I received my Master degree in Artificial Intelligence from Beihang University (2025).
+
+I am currently exploring **Video World Models**. My research interests center on **Diffusion Distillation** and **Preference Alignment**. Welcome to discuss, feel free to reach out at <a href="mailto:jiaxiangcc@gmail.com">jiaxiangcc@gmail.com</a>.
 
 
 # 🔥 News
@@ -75,12 +77,12 @@ Yuanzhi Wang, Xuhua Ren, **Jiaxiang Cheng**, Bing Ma, Kai Yu, Tianxiang Zheng, Q
 
 **Jiaxiang Cheng**, Pan Xie, Xin Xia, Jiashi Li, Jie Wu, Yuxi Ren, Huixia Li, Xuefeng Xiao, Min Zheng, Lean Fu
 
-<a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/badge/Project-Page-blue?style=flat-square&logo=googlechrome&logoColor=white"></a> <a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/badge/Code-GitHub-black?style=flat-square&logo=github"></a> <a href="https://arxiv.org/abs/2403.02084"><img src="https://img.shields.io/badge/arXiv-2403.02084-b31b1b?style=flat-square&logo=arxiv&logoColor=white"></a> <a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/github/stars/bytedance/res-adapter?style=social"></a>
+<a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/badge/Project-Page-blue?style=flat-square&logo=googlechrome&logoColor=white"></a> <a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/badge/Code-GitHub-black?style=flat-square&logo=github"></a> <a href="https://arxiv.org/abs/2403.02084"><img src="https://img.shields.io/badge/arXiv-2403.02084-b31b1b?style=flat-square&logo=arxiv&logoColor=white"></a> <a href="https://github.com/bytedance/res-adapter"><img src="https://img.shields.io/badge/GitHub%20Stars-765-yellow?style=flat-square&logo=github"></a>
 - A plug-and-play resolution adapter for diffusion models that enables arbitrary resolution generation without retraining.
 </div>
 </div>
 
-- [HunyuanVideo: A Systematic Framework for Large Video Generative Models](https://arxiv.org/abs/2412.03603), Weijie Kong, Qi Tian, Zijian Zhang, Rox Min, Zuozhuo Dai, ..., **Jiaxiang Cheng**, et al., **arXiv 2024** \| <a href="https://github.com/Tencent/HunyuanVideo"><img src="https://img.shields.io/github/stars/Tencent/HunyuanVideo?style=social"></a>
+- [HunyuanVideo: A Systematic Framework for Large Video Generative Models](https://arxiv.org/abs/2412.03603), Weijie Kong, Qi Tian, Zijian Zhang, Rox Min, Zuozhuo Dai, ..., **Jiaxiang Cheng**, et al., **arXiv 2024** \| <a href="https://github.com/Tencent/HunyuanVideo"><img src="https://img.shields.io/badge/GitHub%20Stars-12k-yellow?style=flat-square&logo=github"></a>
 - [Hunyuan-Game: Industrial-grade Intelligent Game Creation Model](https://arxiv.org/abs/2505.14135), Ruihuang Li, Caijin Zhou, Shoujian Zheng, Jianxiang Lu, Jiabin Huang, Comi Chen, Junshu Tang, Guangzheng Xu, Jiale Tao, **Jiaxiang Cheng**, et al., **arXiv 2025**
 - [Beyond Reward Margin: Rethinking and Resolving Likelihood Displacement in Diffusion Models via Video Generation](https://arxiv.org/abs/2511.19049), Ruojun Xu, Yu Kai, Xuhua Ren, **Jiaxiang Cheng**, Bing Ma, Tianxiang Zheng, Qinglin Lu, **arXiv 2025**
 - [PersonaVlog: Personalized Multimodal Vlog Generation with Multi-Agent Collaboration and Iterative Self-Correction](https://arxiv.org/abs/2508.13602), Xiaolu Hou, Bing Ma, **Jiaxiang Cheng**, Xuhua Ren, Kai Yu, Wenyue Li, Tianxiang Zheng, Qinglin Lu, **arXiv 2025**
@@ -90,5 +92,5 @@ Yuanzhi Wang, Xuhua Ren, **Jiaxiang Cheng**, Bing Ma, Kai Yu, Tianxiang Zheng, Q
 - *2018.09 - 2022.06*, B.E. in Automation, Xidian University, Xi'an, China. 
 
 # 💻 Experience
-- *2024.11 - Present*, Researcher, <img src="images/tencent_logo.svg" alt="Tencent" style="height:1.2em; vertical-align:middle;"> [Tencent HY](https://www.tencent.com/) Video World Model Team, Beijing, China.
-- *2023.04 - 2024.10*, Research Intern, <img src="images/bytedance_logo.svg" alt="ByteDance" style="height:1.2em; vertical-align:middle;"> [ByteDance](https://www.bytedance.com/) Intelligent Creation Team, Beijing, China.
+- *2024.11 - Present*, Researcher, <img src="images/tencent_logo.svg" alt="Tencent" style="height:1.2em; vertical-align:middle;"> Tencent HY, Beijing, China.
+- *2023.04 - 2024.10*, Research Intern, <img src="images/bytedance_logo.svg" alt="ByteDance" style="height:1.2em; vertical-align:middle;"> ByteDance Intelligent Creation, Beijing, China.
