@@ -23,7 +23,7 @@ I am currently exploring **Video World Models**. My research interests center on
 
 
 # 🔥 News
-- *2026.05*: &nbsp;🎉 One paper about human image animation is accepted in <span style="color:#224b8d; font-weight:bold;">ICML 2026</span>.
+- *2026.05*: &nbsp;🎉 One paper about preference alignment is accepted in <span style="color:#224b8d; font-weight:bold;">ICML 2026</span>.
 - *2025.10*: &nbsp;🎉 One paper about video diffusion acceleration is accepted in <span style="color:#224b8d; font-weight:bold;">AAAI 2026</span>.
 - *2024.11*: &nbsp;🏢 Joined <img src="images/tencent_logo.svg" alt="Tencent" style="height:1.2em; vertical-align:middle;"> **Tencent HY** as Researcher.
 - *2024.11*: &nbsp;🎉 One paper about resolution adapter is accepted in <span style="color:#224b8d; font-weight:bold;">AAAI 2025</span>.
