@@ -23,11 +23,10 @@ I am currently exploring **Video World Models**. My research interests center on
 
 
 # 🔥 News
-- *2026.05*: &nbsp;🎉 One paper on human image animation accepted by <span style="color:#224b8d; font-weight:bold;">ICML 2026</span>.
-- *2025.10*: &nbsp;🎉 One paper on video diffusion acceleration accepted by <span style="color:#224b8d; font-weight:bold;">AAAI 2026</span>.
-- *2024.12*: &nbsp;🔥 Our [**HunyuanVideo**](https://arxiv.org/abs/2412.03603) is released, a systematic framework for large video generative models.
+- *2026.05*: &nbsp;🎉 One paper about human image animation is accepted in <span style="color:#224b8d; font-weight:bold;">ICML 2026</span>.
+- *2025.10*: &nbsp;🎉 One paper about video diffusion acceleration is accepted in <span style="color:#224b8d; font-weight:bold;">AAAI 2026</span>.
 - *2024.11*: &nbsp;🏢 Joined <img src="images/tencent_logo.svg" alt="Tencent" style="height:1.2em; vertical-align:middle;"> **Tencent HY** as Researcher.
-- *2024.11*: &nbsp;🎉 One paper ResAdapter accepted by <span style="color:#224b8d; font-weight:bold;">AAAI 2025</span>.
+- *2024.11*: &nbsp;🎉 One paper about resolution adapter is accepted in <span style="color:#224b8d; font-weight:bold;">AAAI 2025</span>.
 - *2023.04*: &nbsp;🏢 Joined <img src="images/bytedance_logo.svg" alt="ByteDance" style="height:1.2em; vertical-align:middle;"> **ByteDance Intelligent Creation** as Research Intern.
 
 # 📝 Recent Works

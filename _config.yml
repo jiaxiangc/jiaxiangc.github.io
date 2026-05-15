@@ -6,7 +6,7 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-title                    : "Jiaxiang Cheng (程嘉翔)"
+title                    : "Jiaxiang Cheng"
 description              : "Exploring Video World Models, Diffusion Distillation, Preference Alignment."
 repository               : "jiaxiangc/jiaxiangc.github.io"
 google_scholar_stats_use_cdn : true
@@ -21,7 +21,7 @@ baidu_site_verification  :  # get baidu_site_verification from https://ziyuan.ba
 
 # Site Author
 author:
-  name             : "Jiaxiang Cheng<br>(程嘉翔)"
+  name             : "Jiaxiang Cheng"
   avatar           : "images/avatar.jpg"
   bio              : "Researcher@Tencent-HY"
   location         : "Beijing, China"
