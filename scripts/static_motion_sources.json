@@ -1,0 +1,255 @@
+{
+  "editorial_note": "Seven-second visual comparisons use authentic published baseline and method output stills. A fine vertical boundary sweeps horizontally while identical restrained editorial camera transforms apply to both sides. These are static paper samples with an editorial push, not original generated videos. No samples are retouched and no model outputs, intermediate poses or body motion are synthesized. Small method names sit within the image, without headings, cards or top bars.",
+  "format": {
+    "fps": 24,
+    "codec": "H.264",
+    "pixel_format": "yuv420p",
+    "crf": 21,
+    "audio": false,
+    "faststart": true,
+    "dimensions": "All three static-material previews use a coordinated 720x432 landscape canvas."
+  },
+  "resadapter": {
+    "duration_seconds": 7,
+    "paper": "https://arxiv.org/abs/2403.02084",
+    "project": "https://res-adapter.github.io/",
+    "sources": [
+      {
+        "file": "res-dreamshaperxl-extrapolation.png",
+        "url": "https://res-adapter.github.io/assets/dreamshaperxl1.png",
+        "sha256": "fdb85edf52825274b3bf22186b73be0a16811ac89424ea1040c72305557d333d",
+        "size": [
+          2158,
+          2036
+        ],
+        "crops_xywh": {
+          "resadapter_knight": [
+            116,
+            1022,
+            1020,
+            612
+          ],
+          "baseline_knight": [
+            1138,
+            1022,
+            1020,
+            612
+          ]
+        }
+      }
+    ],
+    "story": "One continuous comparison uses the official castle-knight example: a steady left-to-right boundary reveals ResAdapter over the original baseline. A matched 2.5% editorial camera push applies to both source stills and continues after the 4.25-second reveal ends. The approved pure-result poster remains unzoomed. No shot changes or generated subject movement.",
+    "provenance": "Official project DreamshaperXL resolution-extrapolation gallery, second row. Project caption explicitly identifies the left panel as ResAdapter with the baseline and the right panel as baseline. Horizontal crops retain each entire panel width and exclude the baked-in labels at its lower edge.",
+    "poster_seconds": 5.8,
+    "poster_selection": "Pure ResAdapter castle-knight result: natural light, a single face and detailed silver armour, in the same landscape composition as playback.",
+    "frame_size": [
+      720,
+      432
+    ],
+    "edit": {
+      "reveal_seconds": [
+        0.55,
+        4.25
+      ],
+      "direction": "left-to-right",
+      "baseline_label": "baseline",
+      "result_label": "ResAdapter",
+      "source_motion": "none; original published still image panels",
+      "editorial_camera": {
+        "type": "centered linear push-in",
+        "zoom_range": [
+          1,
+          1.025
+        ],
+        "interval_seconds": [
+          0,
+          7
+        ],
+        "comparison_transform": "identical for baseline and method result",
+        "max_crop_pixels_per_edge_at_720x432": [
+          8.78049,
+          5.268293
+        ],
+        "poster_transform": "none; approved original poster bytes retained"
+      }
+    }
+  },
+  "ipa": {
+    "duration_seconds": 7,
+    "paper": "https://arxiv.org/abs/2605.07545",
+    "sources": [
+      {
+        "file": "ipa-paper.pdf",
+        "url": "https://arxiv.org/pdf/2605.07545v1",
+        "sha256": "53736991a559351f8cd719dbeb449cc88645949ce5cd8a50392ae6a0b1608f5f",
+        "page": 18,
+        "figure": 8,
+        "native_image_xrefs": {
+          "VACE": [
+            892,
+            893
+          ],
+          "Ours": [
+            870,
+            873
+          ]
+        },
+        "native_size": [
+          240,
+          416
+        ]
+      }
+    ],
+    "story": "A borderless landscape diptych shows the same two white-top hand-gesture time columns from Figure 8. The published VACE panels change to the exact corresponding IPA panels behind one sweeping boundary. A shared 2.5% editorial push continues across all seven seconds, retaining face and hand margins; the original poster stays unchanged. The repository supplies no matching original video.",
+    "provenance": "Figure 8, page 18, right-hand example. The VACE row is y=259.3\u2013339.0 PDF points and the Ours row is y=508.2\u2013587.9. First two right-example columns use VACE xrefs 892 and 893 and Ours xrefs 870 and 873. The native image data excludes red boxes drawn separately in the PDF; no pixel retouching is performed.",
+    "poster_seconds": 5.8,
+    "poster_selection": "Two genuine IPA result frames in a full-bleed, balanced landscape diptych, preserving both complete faces and raised hands. No baked-in text or diagram.",
+    "frame_size": [
+      720,
+      432
+    ],
+    "edit": {
+      "reveal_seconds": [
+        0.55,
+        4.25
+      ],
+      "direction": "left-to-right",
+      "baseline_label": "VACE",
+      "result_label": "IPA",
+      "native_crop_xywh": [
+        0,
+        40,
+        240,
+        288
+      ],
+      "panel_size": [
+        360,
+        432
+      ],
+      "source_motion": "none; original published still image panels",
+      "editorial_camera": {
+        "type": "centered linear push-in",
+        "zoom_range": [
+          1,
+          1.025
+        ],
+        "interval_seconds": [
+          0,
+          7
+        ],
+        "comparison_transform": "identical for baseline and method result",
+        "max_crop_pixels_per_edge_at_720x432": [
+          8.78049,
+          5.268293
+        ],
+        "poster_transform": "none; approved original poster bytes retained"
+      }
+    },
+    "original_video_audit": {
+      "checked_date": "2026-10-25",
+      "repository": "https://github.com/mdswyz/IPA",
+      "commit": "eb21f5b8c797c1a69e3e74c5e5ee8ff484a02324",
+      "tracked_files": [
+        "LICENSE",
+        "README.md",
+        "assets/framework.png"
+      ],
+      "readme_video_links": [],
+      "result": "No source video for the Figure 8 white-top hand-gesture comparison is published in the official repository or linked by its README. Preserve the verified paired paper frames rather than replacing the identity or inventing motion."
+    }
+  },
+  "beyond-reward": {
+    "duration_seconds": 7,
+    "paper": "https://arxiv.org/abs/2511.19049",
+    "sources": [
+      {
+        "file": "beyond-vc_ab1.png",
+        "url": "https://arxiv.org/html/2511.19049v1/fig/ap/vc_ab1.png",
+        "sha256": "bfe17d80dab55d09274587d0d3e12c2641e3aa2d4123fe675fdea99d115e52dc",
+        "crops_xywh": {
+          "baseline_car_portrait": [
+            79,
+            54,
+            293,
+            179
+          ],
+          "pgdpo_car_portrait": [
+            79,
+            650,
+            293,
+            179
+          ]
+        },
+        "size": [
+          3000,
+          833
+        ]
+      },
+      {
+        "file": "beyond-wan_ab1.png",
+        "url": "https://arxiv.org/html/2511.19049v1/fig/ap/wan_ab1.png",
+        "sha256": "6cf8f92ea86534414271c433eca050a5328130a5021bf14c195ddb18c7b21483",
+        "crops_xywh": {
+          "dpo_suit_portrait": [
+            2433,
+            386,
+            270,
+            152
+          ],
+          "pgdpo_suit_portrait": [
+            2433,
+            550,
+            270,
+            152
+          ]
+        },
+        "size": [
+          3000,
+          705
+        ]
+      }
+    ],
+    "story": "Two full-image qualitative comparisons reveal the exact published PG-DPO panel from the corresponding baseline panel with a thin moving seam. The first compares the VC2 baseline with Ours for the car portrait, and the second compares the Wan2.1 DPO row with Ours for the tie-adjustment prompt. Short baseline/DPO and PG-DPO text is embedded at the lower image edge. These are method comparisons from appendix figures, not annotated preference pairs.",
+    "provenance": "Appendix Figure 10 (VC2): first column, top Baseline versus bottom Ours. Appendix Figure 11 (Wan2.1): the third output frame in the tie-adjustment example, DPO versus Ours. Comparison pairs are factual method rows from the same example, not fabricated chosen/rejected training labels.",
+    "poster_seconds": 1.8,
+    "poster_selection": "Pure PG-DPO car portrait, with the paper-layout border excluded; no comparison seam or label.",
+    "frame_size": [
+      720,
+      432
+    ],
+    "edit": {
+      "cut_seconds": 3.5,
+      "comparison_reveal_per_shot": [
+        0.5,
+        1.75
+      ],
+      "car_camera_xyw": [
+        [
+          0,
+          1,
+          293
+        ],
+        [
+          8,
+          2,
+          278
+        ]
+      ],
+      "tie_camera_xyw": [
+        [
+          6,
+          0,
+          253
+        ],
+        [
+          11,
+          3,
+          243
+        ]
+      ],
+      "source_motion": "none; original published still image panels",
+      "editorial_camera_note": "Existing identical camera paths apply to each baseline/method pair and continue after each wipe. Already animated by an editorial push; video and poster are unchanged in this update."
+    }
+  },
+  "rebuild": "python3 scripts/build_static_motion.py --source-dir /path/to/source-cache --scratch-dir /path/to/compact-static. Missing official sources are fetched and SHA-256 checked. Requires Pillow, PyMuPDF, FFmpeg and motion_common.py. --contact-only creates source-aspect storyboards without encoding. Pure posters are saved separately from video annotations; webpage cover typography is maintained by the shared poster builder."
+}

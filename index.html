@@ -13,7 +13,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png?v=2">
     <link rel="shortcut icon" href="images/favicon.ico?v=2" type="image/x-icon">
     <link rel="manifest" href="images/site.webmanifest">
-    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=20261025-visits3">
+    <script src="paper-previews.js?v=20261024-reveal8" defer></script>
+    <script src="site-visits.js?v=20261025-visits3" defer></script>
   </head>
 
   <body>
@@ -35,8 +37,8 @@
                   I am currently exploring <b>Video World Models</b>. My research interests center on <b>Diffusion Distillation</b> and <b>Preference Alignment</b>. Welcome to discuss, feel free to reach out at <a href="mailto:jiaxiangcc@gmail.com">jiaxiangcc@gmail.com</a>.
                 </p>
                 <p style="text-align:center">
-                  <a href="mailto:jiaxiangcc@gmail.com">Email</a> &nbsp;/&nbsp;
-                  <a href="https://scholar.google.com/citations?user=gNhyB-oAAAAJ">Google Scholar</a> &nbsp;/&nbsp;
+                  <a href="mailto:jiaxiangcc@gmail.com">Email</a> &nbsp;|&nbsp;
+                  <a href="https://scholar.google.com/citations?user=gNhyB-oAAAAJ">Google Scholar</a> &nbsp;|&nbsp;
                   <a href="https://github.com/jiaxiangc">Github</a>
                 </p>
               </td>
@@ -53,6 +55,9 @@
               <td style="padding:16px;width:100%;vertical-align:middle">
                 <h2>News</h2>
                 <ul style="list-style-type: disc; padding-left: 20px;">
+                  <li style="margin: 5px;">
+                    <b>[2026.10]</b> We release <a href="https://hy-nomas.hy.tencent.com/"><b>Hy-Nomas</b></a>, a world model for free-form interaction.
+                  </li>
                   <li style="margin: 5px;">
                     <b>[2026.09]</b> One paper about reference editing is accepted in <b>NeurIPS 2026</b>.
                   </li>
@@ -93,7 +98,38 @@
 
           <tr>
             <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/faithfulfaces.png' alt="FaithfulFaces">
+              <div class="paper-preview" data-paper="Hy-Nomas" style="--cover-accent:#bcecdc;--preview-ratio:720/432">
+                <video controls muted loop playsinline preload="none" width="720" height="432" poster="images/paper-previews/hy-nomas-poster.jpg?v=20261024-reveal8" aria-label="Hy-Nomas world model: coral-city exploration, a robotics adaptation separating nested cups, and flight above a coastal palace.">
+                  <source src="videos/hy-nomas-preview.mp4?v=20261024-reveal8" type="video/mp4">
+                  <img src="images/paper-previews/hy-nomas-poster.jpg?v=20261024-reveal8" alt="Hy-Nomas world model: coral-city exploration, a robotics adaptation separating nested cups, and flight above a coastal palace.">
+                </video>
+                <div class="preview-art" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" aria-hidden="true"><path d="M3 3H11C16 3 16 11 21 11H38M3 11H11C16 11 16 3 21 3H29" stroke="currentColor" stroke-width="1"/><circle cx="2" cy="3" r="1.5" fill="currentColor"/><circle cx="2" cy="11" r="1.5" fill="currentColor"/><circle cx="39" cy="11" r="2" stroke="currentColor"/><path d="M27 1L30 3L27 5" stroke="currentColor"/></svg><span class="cover-label">Interactive world model</span><span class="cover-detail">Text · camera · interaction</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play Hy-Nomas preview" data-state="paused" hidden></button>
+              </div>
+            </td>
+            <td width="75%" valign="center">
+              <span class="papertitle">Hy-Nomas: Towards Free-Form Interactive World Generation</span>
+              <br>
+              <strong>Core Contributors</strong>
+              <br>
+              <em>Technical Report</em>, 2026
+              <br>
+              <a href="https://github.com/Tencent-Hunyuan/Hy-Nomas">arxiv</a> | <a href="https://github.com/Tencent-Hunyuan/Hy-Nomas">code</a> | <a href="https://hy-nomas.hy.tencent.com/">project page</a>
+              <br>
+              A world model for free-form interaction, enabling multi-turn control through text instructions and camera movements.
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px;width:30%;max-width:30%" align="center">
+              <div class="paper-preview" data-paper="FaithfulFaces" style="--cover-accent:#f0d9c6;--preview-ratio:720/432">
+                <video controls muted loop playsinline preload="none" width="720" height="432" poster="images/paper-previews/faithfulfaces-poster.jpg?v=20261025-motion9" aria-label="FaithfulFaces: a horizontal reveal compares the published VACE and FaithfulFaces results for the same identity and dancing prompt.">
+                  <source src="videos/faithfulfaces-preview.mp4?v=20261025-motion9" type="video/mp4">
+                  <img src="images/paper-previews/faithfulfaces-poster.jpg?v=20261025-motion9" alt="FaithfulFaces: a horizontal reveal compares the published VACE and FaithfulFaces results for the same identity and dancing prompt.">
+                </video>
+                <div class="preview-art preview-art--quiet" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="7" cy="7" r="5"/><circle cx="34" cy="7" r="5"/><path d="M15 7H26M23 4L27 7L23 10"/><path d="M4 8Q7 11 10 8M31 8Q34 11 37 8"/></svg><span class="cover-label">Identity in motion</span><span class="cover-detail">Pose-faithful generation</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play FaithfulFaces preview" data-state="paused" hidden></button>
+              </div>
             </td>
             <td width="75%" valign="center">
               <span class="papertitle">FaithfulFaces: Pose-Faithful Facial Identity Preservation for Text-to-Video Generation</span>
@@ -102,7 +138,7 @@
               <br>
               <em>Conference on Neural Information Processing Systems (<strong>NeurIPS</strong>)</em>, 2026
               <br>
-              <a href="https://arxiv.org/abs/2605.04702">Project Page</a> / <a href="https://arxiv.org/abs/2605.04702">arXiv</a>
+              <a href="https://arxiv.org/abs/2605.04702">arxiv</a> | <a href="https://mdswyz.github.io/FaithfulFaces/">code</a> | <a href="https://mdswyz.github.io/FaithfulFaces/">project page</a>
               <br>
               A pose-faithful approach for preserving facial identity in text-to-video generation.
             </td>
@@ -110,7 +146,14 @@
 
           <tr>
             <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/reward_lightning.png' alt="Reward Lightning">
+              <div class="paper-preview" data-paper="Reward Lightning" style="--cover-accent:#d4e8ff;--preview-ratio:768/432">
+                <video controls muted loop playsinline preload="none" width="768" height="432" poster="images/paper-previews/reward-lightning-poster.jpg?v=20261025-motion9" aria-label="Reward Lightning: a moving reveal compares the official Wan 2.2 and Reward Lightning storm-sea videos at 4 NFE.">
+                  <source src="videos/reward-lightning-preview.mp4?v=20261025-motion9" type="video/mp4">
+                  <img src="images/paper-previews/reward-lightning-poster.jpg?v=20261025-motion9" alt="Reward Lightning: a moving reveal compares the official Wan 2.2 and Reward Lightning storm-sea videos at 4 NFE.">
+                </video>
+                <div class="preview-art preview-art--quiet" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M2 3V11M7 2V12M12 4V10M17 6H25M22 3L26 6L22 9M33 1L28 8H33L30 13L40 5H34L38 1Z"/></svg><span class="cover-label">preference distillation</span><span class="cover-detail">Fast video generation</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play Reward Lightning preview" data-state="paused" hidden></button>
+              </div>
             </td>
             <td width="75%" valign="center">
               <span class="papertitle">Reward Lightning: Fast Video Generation via Homologous Preference Distillation</span>
@@ -119,7 +162,7 @@
               <br>
               <em>European Conference on Computer Vision (<strong>ECCV</strong>)</em>, 2026
               <br>
-              <a href="https://reward-lightning.github.io/">Project Page</a> / <a href="https://arxiv.org/abs/2607.03960">arXiv</a>
+              <a href="https://arxiv.org/abs/2607.03960">arxiv</a> | <a href="https://reward-lightning.github.io/">code</a> | <a href="https://reward-lightning.github.io/">project page</a>
               <br>
               A framework that jointly achieves preference alignment and acceleration for video diffusion models within a shared latent representation space.
             </td>
@@ -127,7 +170,14 @@
 
           <tr>
             <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/ipa.png' alt="IPA">
+              <div class="paper-preview" data-paper="IPA" style="--cover-accent:#d6e8d5;--preview-ratio:720/432">
+                <video controls muted loop playsinline preload="none" width="720" height="432" poster="images/paper-previews/ipa-poster.jpg?v=20261025-motion9" aria-label="IPA: a horizontal reveal compares published VACE and IPA hand-gesture results for the same examples.">
+                  <source src="videos/ipa-preview.mp4?v=20261025-motion9" type="video/mp4">
+                  <img src="images/paper-previews/ipa-poster.jpg?v=20261025-motion9" alt="IPA: a horizontal reveal compares published VACE and IPA hand-gesture results for the same examples.">
+                </video>
+                <div class="preview-art preview-art--quiet" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M4 3H1V11H4M36 3H40V11H36"/><circle cx="17" cy="7" r="5"/><circle cx="23" cy="7" r="5"/></svg><span class="cover-label">Human animation</span><span class="cover-detail">Implicit preference alignment</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play IPA preview" data-state="paused" hidden></button>
+              </div>
             </td>
             <td width="75%" valign="center">
               <span class="papertitle">Implicit Preference Alignment for Human Image Animation</span>
@@ -136,7 +186,7 @@
               <br>
               <em>International Conference on Machine Learning (<strong>ICML</strong>)</em>, 2026
               <br>
-              <a href="https://github.com/mdswyz/IPA">Code</a> / <a href="https://arxiv.org/abs/2605.07545">arXiv</a>
+              <a href="https://arxiv.org/abs/2605.07545">arxiv</a> | <a href="https://github.com/mdswyz/IPA">code</a> | <a href="https://github.com/mdswyz/IPA">project page</a>
               <br>
               A preference alignment framework for human image animation that eliminates the need for paired preference data.
             </td>
@@ -144,7 +194,14 @@
 
           <tr>
             <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/phased_oae.png' alt="Phased OAE">
+              <div class="paper-preview" data-paper="Phased OAE" style="--cover-accent:#f4d8af;--preview-ratio:768/432">
+                <video controls muted loop playsinline preload="none" width="768" height="432" poster="images/paper-previews/v-pae-poster.jpg?v=20261025-motion9" aria-label="Phased OAE: a moving reveal compares the official baseline and one-step videos of the same painted portrait.">
+                  <source src="videos/v-pae-preview.mp4?v=20261025-motion9" type="video/mp4">
+                  <img src="images/paper-previews/v-pae-poster.jpg?v=20261025-motion9" alt="Phased OAE: a moving reveal compares the official baseline and one-step videos of the same painted portrait.">
+                </video>
+                <div class="preview-art preview-art--quiet" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="3" cy="7" r="2"/><path d="M9 7H22M19 4L23 7L19 10M29 2H40V12H29ZM32 4L37 7L32 10Z"/></svg><span class="cover-label">One-step video</span><span class="cover-detail">Adversarial equilibrium</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play Phased OAE preview" data-state="paused" hidden></button>
+              </div>
             </td>
             <td width="75%" valign="center">
               <span class="papertitle">Phased One-step Adversarial Equilibrium for Video Diffusion Models</span>
@@ -153,7 +210,7 @@
               <br>
               <em>AAAI Conference on Artificial Intelligence (<strong>AAAI</strong>)</em>, 2026
               <br>
-              <a href="https://v-pae.github.io/">Project Page</a> / <a href="https://arxiv.org/abs/2508.21019">arXiv</a>
+              <a href="https://arxiv.org/abs/2508.21019">arxiv</a> | <a href="https://v-pae.github.io/">code</a> | <a href="https://v-pae.github.io/">project page</a>
               <br>
               A novel phased adversarial training framework for one-step video generation with diffusion models.
             </td>
@@ -161,7 +218,14 @@
 
           <tr>
             <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/resadapter.png' alt="ResAdapter">
+              <div class="paper-preview" data-paper="ResAdapter" style="--cover-accent:#eecda5;--preview-ratio:720/432">
+                <video controls muted loop playsinline preload="none" width="720" height="432" poster="images/paper-previews/resadapter-poster.jpg?v=20261025-motion9" aria-label="ResAdapter: a horizontal reveal changes the published baseline castle scene into the domain-consistent ResAdapter result.">
+                  <source src="videos/resadapter-preview.mp4?v=20261025-motion9" type="video/mp4">
+                  <img src="images/paper-previews/resadapter-poster.jpg?v=20261025-motion9" alt="ResAdapter: a horizontal reveal changes the published baseline castle scene into the domain-consistent ResAdapter result.">
+                </video>
+                <div class="preview-art preview-art--quiet" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M1 5V1H12M1 9V13H12M41 5V1H30M41 9V13H30M16 2H26V12H16ZM5 7H12M30 7H37"/></svg><span class="cover-label">Flexible resolution</span><span class="cover-detail">Domain-consistent generation</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play ResAdapter preview" data-state="paused" hidden></button>
+              </div>
             </td>
             <td width="75%" valign="center">
               <span class="papertitle">ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models</span>
@@ -170,9 +234,57 @@
               <br>
               <em>AAAI Conference on Artificial Intelligence (<strong>AAAI</strong>)</em>, 2025
               <br>
-              <a href="https://res-adapter.github.io/">Project Page</a> / <a href="https://github.com/bytedance/res-adapter">Code</a> / <a href="https://arxiv.org/abs/2403.02084">arXiv</a>
+              <a href="https://arxiv.org/abs/2403.02084">arxiv</a> | <a href="https://github.com/bytedance/res-adapter">code</a> | <a href="https://res-adapter.github.io/">project page</a>
               <br>
               A plug-and-play resolution adapter for diffusion models that enables arbitrary resolution generation without retraining.
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px;width:30%;max-width:30%" align="center">
+              <div class="paper-preview" data-paper="Hunyuan-Game" style="--cover-accent:#dcd0ff;--preview-ratio:720/432">
+                <video controls muted loop playsinline preload="none" width="720" height="432" poster="images/paper-previews/hunyuan-game-poster.jpg?v=20261024-reveal8" aria-label="Hunyuan-Game character animation: silver-haired character close-ups and flowing illustrated combat artwork.">
+                  <source src="videos/hunyuan-game-preview.mp4?v=20261024-reveal8" type="video/mp4">
+                  <img src="images/paper-previews/hunyuan-game-poster.jpg?v=20261024-reveal8" alt="Hunyuan-Game character animation: silver-haired character close-ups and flowing illustrated combat artwork.">
+                </video>
+                <div class="preview-art" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M5 10L14 2L25 11L36 3M5 10H25M14 2L36 3"/><circle cx="5" cy="10" r="2"/><circle cx="14" cy="2" r="2"/><circle cx="25" cy="11" r="2"/><circle cx="36" cy="3" r="2"/></svg><span class="cover-label">Game creation</span><span class="cover-detail">Characters · scenes · motion</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play Hunyuan-Game preview" data-state="paused" hidden></button>
+              </div>
+            </td>
+            <td width="75%" valign="center">
+              <span class="papertitle">Hunyuan-Game: Industrial-grade Intelligent Game Creation Model</span>
+              <br>
+              <strong>Contributors</strong>
+              <br>
+              <em>Technical Report</em>, 2025
+              <br>
+              <a href="https://arxiv.org/abs/2505.14135">arxiv</a> | <a href="https://cdn-portal.hunyuan.tencent.com/game/index.html">code</a> | <a href="https://cdn-portal.hunyuan.tencent.com/game/index.html">project page</a>
+              <br>
+              An industrial-grade model suite for game image and video asset creation.
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px;width:30%;max-width:30%" align="center">
+              <div class="paper-preview" data-paper="HunyuanVideo" style="--cover-accent:#b9e9e6;--preview-ratio:768/432">
+                <video controls muted loop playsinline preload="none" width="768" height="432" poster="images/paper-previews/hunyuanvideo-poster.jpg?v=20261024-reveal8" aria-label="Original HunyuanVideo results: a motorcycle tracking shot, a surfer inside a wave, and a colorful coral reef.">
+                  <source src="videos/hunyuanvideo-preview.mp4?v=20261024-reveal8" type="video/mp4">
+                  <img src="images/paper-previews/hunyuanvideo-poster.jpg?v=20261024-reveal8" alt="Original HunyuanVideo results: a motorcycle tracking shot, a surfer inside a wave, and a colorful coral reef.">
+                </video>
+                <div class="preview-art" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M1 5V1H10M1 9V13H10M41 5V1H32M41 9V13H32M5 8C10 0 15 14 21 6S31 0 37 7"/></svg><span class="cover-label">Video generation</span><span class="cover-detail">Text to motion</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play HunyuanVideo preview" data-state="paused" hidden></button>
+              </div>
+            </td>
+            <td width="75%" valign="center">
+              <span class="papertitle">HunyuanVideo: A Systematic Framework for Large Video Generative Models</span>
+              <br>
+              <strong>Contributors</strong>
+              <br>
+              <em>Technical Report</em>, 2024
+              <br>
+              <a href="https://arxiv.org/abs/2412.03603">arxiv</a> | <a href="https://github.com/Tencent-Hunyuan/HunyuanVideo">code</a> | <a href="https://aivideo.hunyuan.tencent.com/">project page</a>
+              <br>
+              A systematic framework for training and deploying large-scale video generative models.
             </td>
           </tr>
           </tbody></table>
@@ -190,7 +302,14 @@
 
           <tr>
             <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/beyond_reward.png' alt="Beyond Reward Margin">
+              <div class="paper-preview" data-paper="Beyond Reward Margin" style="--cover-accent:#d2e0ef;--preview-ratio:720/432">
+                <video controls muted loop playsinline preload="none" width="720" height="432" poster="images/paper-previews/beyond-reward-poster.jpg?v=20261024-reveal8" aria-label="PG-DPO published results: a window-lit portrait and a suited man in blue and orange evening light, shown with gentle camera movements.">
+                  <source src="videos/beyond-reward-preview.mp4?v=20261024-reveal8" type="video/mp4">
+                  <img src="images/paper-previews/beyond-reward-poster.jpg?v=20261024-reveal8" alt="PG-DPO published results: a window-lit portrait and a suited man in blue and orange evening light, shown with gentle camera movements.">
+                </video>
+                <div class="preview-art" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M2 12C12 12 12 3 22 3H39M2 12C12 12 13 9 22 9H39M36 1L39 3L36 5"/><circle cx="2" cy="12" r="1"/></svg><span class="cover-label">Preference learning</span><span class="cover-detail">Likelihood displacement</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play Beyond Reward Margin preview" data-state="paused" hidden></button>
+              </div>
             </td>
             <td width="75%" valign="center">
               <span class="papertitle">Beyond Reward Margin: Rethinking and Resolving Likelihood Displacement in Diffusion Models via Video Generation</span>
@@ -199,7 +318,7 @@
               <br>
               <em>arXiv</em>, 2025
               <br>
-              <a href="https://arxiv.org/abs/2511.19049">arXiv</a>
+              <a href="https://arxiv.org/abs/2511.19049">arxiv</a>
               <br>
               A study revealing and resolving likelihood displacement in diffusion preference optimization for video generation.
             </td>
@@ -207,7 +326,14 @@
 
           <tr>
             <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/personavlog.png' alt="PersonaVlog">
+              <div class="paper-preview" data-paper="PersonaVlog" style="--cover-accent:#ffd5b4;--preview-ratio:720/432">
+                <video controls muted loop playsinline preload="none" width="720" height="432" poster="images/paper-previews/personavlog-poster.jpg?v=20261024-reveal8" aria-label="PersonaVlog: a continuous original-speed excerpt of the same woman sketching under trees and walking through a forest.">
+                  <source src="videos/personavlog-preview.mp4?v=20261024-reveal8" type="video/mp4">
+                  <img src="images/paper-previews/personavlog-poster.jpg?v=20261024-reveal8" alt="PersonaVlog: a continuous original-speed excerpt of the same woman sketching under trees and walking through a forest.">
+                </video>
+                <div class="preview-art preview-art--quiet" aria-hidden="true"><svg viewBox="0 0 42 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="1" y="2" width="9" height="10" rx="1"/><rect x="17" y="2" width="9" height="10" rx="1"/><rect x="33" y="2" width="9" height="10" rx="1"/><path d="M11 7H16M27 7H32M4 4H7M20 4H23M36 4H39"/></svg><span class="cover-label">Personalized stories</span><span class="cover-detail">Character-consistent vlogs</span></div>
+                <button class="preview-toggle" type="button" aria-label="Play PersonaVlog preview" data-state="paused" hidden></button>
+              </div>
             </td>
             <td width="75%" valign="center">
               <span class="papertitle">PersonaVlog: Personalized Multimodal Vlog Generation with Multi-Agent Collaboration and Iterative Self-Correction</span>
@@ -216,45 +342,12 @@
               <br>
               <em>arXiv</em>, 2025
               <br>
-              <a href="https://personavlog-paper.github.io/">Project Page</a> / <a href="https://arxiv.org/abs/2508.13602">arXiv</a>
+              <a href="https://arxiv.org/abs/2508.13602">arxiv</a> | <a href="https://personavlog-paper.github.io/">code</a> | <a href="https://personavlog-paper.github.io/">project page</a>
               <br>
               A multi-agent framework for personalized multimodal vlog generation with iterative self-correction.
             </td>
           </tr>
 
-          <tr>
-            <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/hunyuangame.png' alt="Hunyuan-Game">
-            </td>
-            <td width="75%" valign="center">
-              <span class="papertitle">Hunyuan-Game: Industrial-grade Intelligent Game Creation Model</span>
-              <br>
-              Ruihuang Li, Caijin Zhou, Shoujian Zheng, Jianxiang Lu, Jiabin Huang, Comi Chen, Junshu Tang, Guangzheng Xu, Jiale Tao, ..., <strong>Jiaxiang Cheng</strong>, et al.
-              <br>
-              <em>Technical Report</em>, 2025
-              <br>
-              <a href="https://github.com/Tencent/Hunyuan-Game">Code</a> / <a href="https://arxiv.org/abs/2505.14135">arXiv</a>
-              <br>
-              An industrial-grade model suite for game image and video asset creation.
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:20px;width:30%;max-width:30%" align="center">
-              <img style="width:100%;max-width:100%" src='images/hyvideo.png' alt="HunyuanVideo">
-            </td>
-            <td width="75%" valign="center">
-              <span class="papertitle">HunyuanVideo: A Systematic Framework for Large Video Generative Models</span>
-              <br>
-              Weijie Kong, Qi Tian, Zijian Zhang, Rox Min, Zuozhuo Dai, Jin Zhou, Jiangfeng Xiong, Xin Li, Bo Wu, ..., <strong>Jiaxiang Cheng</strong>, et al.
-              <br>
-              <em>Technical Report</em>, 2024
-              <br>
-              <a href="https://github.com/Tencent/HunyuanVideo">Code</a> / <a href="https://arxiv.org/abs/2412.03603">arXiv</a>
-              <br>
-              A systematic framework for training and deploying large-scale video generative models.
-            </td>
-          </tr>
           </tbody></table>
           <!--/ Preprints end -->
 
@@ -263,12 +356,12 @@
             <tr>
               <td style="padding:16px;width:100%;vertical-align:middle">
                 <h2>Education</h2>
-                <ul style="list-style-type: disc; padding-left: 20px;">
-                  <li style="margin: 5px;">
-                    <b>M.S.</b> in Artificial Intelligence, Beihang University, Beijing, China, 2022.09 - 2025.01
+                <ul class="education-list">
+                  <li>
+                    <b>M.S.</b> in Artificial Intelligence, <img src="images/beihang-logo.jpg" class="school-logo" width="18" height="18" alt="" loading="lazy"> Beihang University, Beijing, China, <span class="education-dates">2022.09 - 2025.01</span>
                   </li>
-                  <li style="margin: 5px;">
-                    <b>B.E.</b> in Automation, Xidian University, Xi'an, China, 2018.09 - 2022.06
+                  <li>
+                    <b>B.E.</b> in Automation, <img src="images/xidian-logo.jpg" class="school-logo" width="18" height="18" alt="" loading="lazy"> Xidian University, Xi'an, China, <span class="education-dates">2018.09 - 2022.06</span>
                   </li>
                 </ul>
               </td>
@@ -294,6 +387,17 @@
           </tbody></table>
           <!--/ Experience -->
 
+          <!-- Academic Service -->
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+              <td style="padding:16px;width:100%;vertical-align:middle">
+                <h2>Academic Service</h2>
+                <p><strong>Reviewer:</strong> NeurIPS 2026, ICML 2026, ECCV 2026, AAAI 2026&ndash;2027</p>
+              </td>
+            </tr>
+          </tbody></table>
+          <!--/ Academic Service -->
+
           <!-- template -->
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr>
@@ -309,7 +413,8 @@
 
           <!-- footer -->
           <p style="text-align:center;font-size:small;">
-            &copy; Jiaxiang Cheng | Last updated: July, 2026
+            &copy; Jiaxiang Cheng | Last updated: October, 2026
+            <span class="site-visits" id="busuanzi_container_site_pv" style="display:none" title="Total page views recorded by the counter."> | <span id="busuanzi_value_site_pv"></span> views</span>
           </p>
           <!--/ footer -->
 

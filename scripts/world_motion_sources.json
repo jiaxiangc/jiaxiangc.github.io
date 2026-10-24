@@ -1,0 +1,175 @@
+{
+  "paper": "Hy-Nomas",
+  "project": "https://hy-nomas.hy.tencent.com/",
+  "source_pages": [
+    "https://hy-nomas.hy.tencent.com/",
+    "https://hy.tencent.com/model/open-source-model/detail?id=hy-nomas"
+  ],
+  "format": {
+    "width": 720,
+    "height": 432,
+    "fps": 24,
+    "duration": 7.875,
+    "audio": false,
+    "text": true
+  },
+  "assets": [
+    {
+      "id": "coral-city",
+      "filename": "cam500-0028-clean.mp4",
+      "url": "https://hy-nomas.hy.tencent.com/project/media/cam500-0028.mp4",
+      "sha256": "a6f61007571fc492788a7b4bb12a36aaf355f8d3dd2a7afe6407cc1bd7b57720"
+    },
+    {
+      "id": "robot-cups",
+      "filename": "robot-cup-official.mov",
+      "url": "https://hy-model-ap-prod-1258344703.cos.ap-guangzhou.myqcloud.com/llm-blog/default/323a6063/2026102317595821_6c5ce50cf275899541755de746f010a0.mov",
+      "sha256": "2117263ead8b59f861259784c12e4c0b8fcf18c67a02e79eb0c1ea13d640de7b",
+      "official_label": "ROBOTICS ADAPTATION",
+      "source_page": "https://hy.tencent.com/model/open-source-model/detail?id=hy-nomas"
+    },
+    {
+      "id": "palace-flight",
+      "filename": "tencent-covercard.mp4",
+      "url": "https://hy-model-ap-prod-1258344703.cos.ap-guangzhou.myqcloud.com/llm-blog/default/323a6063/2026102317414349_0812117554a265d899c1aef5c7615800.mp4",
+      "sha256": "108148d333ebe3e496d1c6863c5415091651fcfab3ccd1c15852db9b5a16290f",
+      "source_section": "Official model page cover video",
+      "source_page": "https://hy.tencent.com/model/open-source-model/detail?id=hy-nomas"
+    }
+  ],
+  "method_sources": [
+    "https://hy-nomas.hy.tencent.com/project/media/architecture/figure-5.svg",
+    "https://hy-nomas.hy.tencent.com/project/media/architecture/figure-9.svg"
+  ],
+  "shots": [
+    {
+      "asset": "coral-city",
+      "source_start": 8.75,
+      "source_end": 10.75,
+      "crop": null,
+      "cues": [],
+      "source_inputs": [
+        {
+          "source_interval": [
+            4,
+            8
+          ],
+          "mode": "camera",
+          "keys": [
+            "KeyW",
+            "KeyA"
+          ]
+        },
+        {
+          "source_interval": [
+            8,
+            16
+          ],
+          "mode": "text",
+          "prompt": "A gentle manta ray glides overhead and reveals a pearl-covered passage."
+        }
+      ],
+      "review": "Original-speed ray pass, preserving full source height; camera exploration setup is omitted in the compact cut. Diagram explains the model input pathway, not a newly issued input in this excerpt.",
+      "speed": 1
+    },
+    {
+      "asset": "robot-cups",
+      "source_start": 6.75,
+      "source_end": 10.125,
+      "crop": [
+        310,
+        120,
+        1610,
+        900
+      ],
+      "cues": [
+        {
+          "interval": [
+            0.15,
+            1.9
+          ],
+          "text": "Robotics adaptation",
+          "kind": "text"
+        }
+      ],
+      "source_inputs": [
+        {
+          "range": [
+            5.3,
+            10.0
+          ],
+          "text": "A second gripper pulls off the outer cup and sets it down on the right!"
+        }
+      ],
+      "review": "Starts with gripper already at the nested cups; retains extraction, placement on the right and gripper opening. Keeps original speed. Official robotics adaptation cue is shown briefly.",
+      "speed": 1
+    },
+    {
+      "asset": "palace-flight",
+      "source_start": 66.5,
+      "source_end": 69.0,
+      "crop": [
+        220,
+        85,
+        1700,
+        930
+      ],
+      "cues": [],
+      "review": "Starts after the close pillar passage. Medium framing preserves both wings and the forward flight; feet leave the crop at the lower edge. Original top and bottom HUD removed. No retiming or synthetic flight frames.",
+      "source_inputs": [
+        {
+          "approximate_source_interval": [
+            63.7,
+            67.7
+          ],
+          "prompt": "飞上屋顶，鎏金石柱、大海与远方岛屿尽收眼底。"
+        },
+        {
+          "approximate_source_interval": [
+            67.7,
+            71.0
+          ],
+          "prompt": "滑翔掠过海滨古城，飞过一座座发光的蓝色骏马雕像。",
+          "note": "Selected excerpt shows coastal flight; it does not show the later blue-horse sculptures."
+        }
+      ],
+      "speed": 1
+    }
+  ],
+  "poster": {
+    "asset": "robot-cups",
+    "source_time": 7.5,
+    "crop": [
+      310,
+      120,
+      1610,
+      900
+    ]
+  },
+  "poster_selection": "Two robotic grippers with the beige cup just separated above the blue one. Web overlay adds a transparent world-model descriptor and input trace in the lower negative space.",
+  "method_trace": {
+    "output": [
+      0.12,
+      1.9
+    ],
+    "labels": [
+      "text",
+      "camera",
+      "world"
+    ],
+    "history": "Unlabelled blue feedback arc derived from official history loop."
+  },
+  "review_times": [
+    0.4,
+    1.1,
+    2.25,
+    3.0,
+    3.8,
+    5.15,
+    5.75,
+    7.4
+  ],
+  "editing": "Compact original-speed excerpts: ray pass (2s), robotics adaptation cup separation (3.375s), palace flight (2.5s). Direct cuts; no time acceleration, generated output, optical flow, title bars or caption panels. Transparent method trace and adaptation cue only.",
+  "visual_review": "Coral ray occlusion reviewed in dense sequences; robot extraction reviewed every 0.25s; palace flight reviewed every 0.125s from 64.0 to 69.7s. No obvious object interpenetration found in selected intervals. Palace crop is an intentional medium shot: both wings remain, feet leave the bottom. No claim of perfect geometry. ",
+  "download_note": "COS URLs are canonical object identifiers without signatures. The builder resolves matching signed GET URLs from the official public model-page API at runtime, keeps them only in memory, and verifies media SHA-256. If the page becomes unavailable, save the matching original media under the recorded filename in --source-dir; never commit signed URLs."
+}

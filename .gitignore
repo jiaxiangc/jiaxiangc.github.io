@@ -1,3 +1,5 @@
 .DS_Store
 push.sh
 .jekyll-cache/
+__pycache__/
+*.py[cod]

@@ -1,0 +1,21 @@
+{
+  "description": "Compact 5–8 second publication previews with media-specific aspect ratios and designed static web covers.",
+  "format": {
+    "fps": 24,
+    "codec": "H.264",
+    "audio": false,
+    "dimensions": "Landscape: 720×432 or 768×432; recorded in group manifests.",
+    "duration_range_seconds": [
+      5,
+      8
+    ]
+  },
+  "manifests": [
+    "world_motion_sources.json",
+    "faithful_motion_sources.json",
+    "static_motion_sources.json",
+    "identity_game_motion_sources.json",
+    "generation_motion_sources.json"
+  ],
+  "builder": "build_paper_previews.py"
+}

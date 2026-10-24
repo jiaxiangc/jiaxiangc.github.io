@@ -1,0 +1,103 @@
+{
+  "description": "Landscape comparison of real VACE and FaithfulFaces frames from Figure 13. The same restrained 3% camera push applies to both source images and continues after the divider finishes. Images remain published static outputs, not synthesized moving faces or bodies.",
+  "builder": "scripts/build_faithful_motion.py",
+  "size": [
+    720,
+    432
+  ],
+  "duration_seconds": 7.0,
+  "sweep_start_seconds": 0.65,
+  "sweep_end_seconds": 3.9,
+  "output": "videos/faithfulfaces-preview.mp4",
+  "poster": "images/paper-previews/faithfulfaces-poster.jpg",
+  "baseline": "figure13-xref1311.png",
+  "result": "figure13-xref1307.png",
+  "poster_asset": "figure13-xref1308.png",
+  "project_url": "https://mdswyz.github.io/FaithfulFaces/",
+  "paper_url": "https://arxiv.org/abs/2605.04702",
+  "paper": {
+    "file": "paper.pdf",
+    "url": "https://arxiv.org/pdf/2605.04702v1",
+    "sha256": "b6808b2cb01d640d0829766f4cd9d177504e9d8b0f7eaa0844eda316b972c665"
+  },
+  "assets": [
+    {
+      "file": "figure13-xref1311.png",
+      "pdf_xref": 1311,
+      "pdf_page": 21,
+      "figure": 13,
+      "method": "VACE",
+      "column": 3,
+      "role": "baseline",
+      "native_size": [
+        416,
+        240
+      ],
+      "sha256": "7ba6d2ecab880002445f2445135faea24a9bc504bf621960914afd0cc27ea6fc"
+    },
+    {
+      "file": "figure13-xref1307.png",
+      "pdf_xref": 1307,
+      "pdf_page": 21,
+      "figure": 13,
+      "method": "FaithfulFaces",
+      "column": 3,
+      "role": "result",
+      "native_size": [
+        416,
+        240
+      ],
+      "sha256": "f66909b85b8e3691f1a09eca2da1baa799f9f66c4cd7265e22212eb0de8c2824"
+    },
+    {
+      "file": "figure13-xref1308.png",
+      "pdf_xref": 1308,
+      "pdf_page": 21,
+      "figure": 13,
+      "method": "FaithfulFaces",
+      "column": 4,
+      "role": "poster",
+      "native_size": [
+        416,
+        240
+      ],
+      "sha256": "11e1d0cdfb803846b10f0a0fb72e94ba98e4e21b049dfa55efaa9e33ebf0bd34"
+    }
+  ],
+  "pairing_evidence": "Figure 13, PDF page 21 (append_vis_case_2-cropped.png in arXiv HTML): one shared reference face and prompt describe a person wearing headphones and a black outfit, dancing in a park with arms raised. Comparison uses the third displayed column in the VACE and FaithfulFaces rows. Source methods generate separate outputs, so this is a same-condition comparison, not pixel-aligned or synchronous-video footage.",
+  "design_rationale": "Retain the accepted landscape comparison and clean sweep. A 3.25-second divider reveal is followed by 3.1 seconds of the result, while one continuous 3% camera push runs across the whole clip at constant logarithmic speed. The matched camera transform preserves a fair comparison and avoids integer-crop jitter. No top title, slideshow, artificial blur, retouching or invented baseline.",
+  "poster_selection": "Figure 13 FaithfulFaces row, fourth column, xref1308: graceful side pose with natural partly open eyes, full head, upper body and park surroundings. Different from the earlier tight vertical headphones portrait. Poster has no baked-in text; webpage typography is separate.",
+  "image_processing": "Original PDF embedded pixels extracted without retouching. Both images receive the same centered floating-bound crop and Lanczos scale from 1.00 to 1.03 over seven seconds. The accepted fourth-column poster retains its original unzoomed crop and exact output bytes.",
+  "encoding": {
+    "fps": 24,
+    "codec": "h264",
+    "crf": 21,
+    "audio": false,
+    "faststart": true
+  },
+  "rebuild": "python3 scripts/build_faithful_motion.py --source-dir /path/to/cache; missing PDF and embedded assets are downloaded/extracted and verified.",
+  "camera_motion": {
+    "type": "shared centered editorial push-in",
+    "start_scale": 1.0,
+    "end_scale": 1.03,
+    "curve": "constant logarithmic scale speed over the full 7 seconds",
+    "applied_to": "baseline and result identically",
+    "subpixel_resampling": true,
+    "generated_body_motion": false
+  },
+  "poster_sha256": "b10337f73af54b9af37a7d12c49f2054d4d7d94ce248b12b537208e9cf70fa79",
+  "video_source_audit": {
+    "checked_at": "2026-10-25",
+    "site": "https://mdswyz.github.io/FaithfulFaces/",
+    "published_videos": [
+      "assets/videos/fig1_fig12.mp4",
+      "assets/videos/fig14.mp4",
+      "assets/videos/fig15.mp4",
+      "assets/videos/fig16_1.mp4"
+    ],
+    "finding": "The public gallery provides no Figure 13 video. Figure 15 is a different reference identity and urban setting, so it is not a valid replacement for the Figure 13 park comparison. The current edit retains the authenticated static pair and introduces camera motion only.",
+    "repository": "https://github.com/mdswyz/FaithfulFaces",
+    "repository_commit": "4bcc205c2c86b84e674191e2cee55f9972d302ab",
+    "full_repository_tree_checked": true
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "format": {
+    "dimensions": [
+      720,
+      432
+    ],
+    "fps": 24,
+    "codec": "libx264",
+    "preset": "slow",
+    "crf": 23,
+    "pixel_format": "yuv420p",
+    "audio": false,
+    "faststart": true,
+    "dimension_policy": "Per-preview dimensions override the default to preserve source composition."
+  },
+  "editorial_policy": "Official generated footage only. Moving-reveal previews use authentic matched baseline/result pairs, a single thin divider and brief transparent in-frame method labels. Both videos advance at their original source speed during and after the wipe, with no fabricated degradation, frame holds, optical flow or extra looping. Other preview modes retain their own documented original-speed editing. No title strips, cards, progress indicators or color grading; posters are pure result footage.",
+  "previews": [
+    {
+      "slug": "reward-lightning",
+      "title": "Reward Lightning: Fast Video Generation via Homologous Preference Distillation",
+      "project_url": "https://reward-lightning.github.io/",
+      "paper_url": "https://arxiv.org/abs/2607.03960",
+      "source_section": "Official Comparison with Baseline / Wan2.2-I2V, row1: Wan2.2-4NFEs and Ours-4NFEs",
+      "duration": 5.0,
+      "poster_time": 1.5,
+      "composition": "Single official paired storm-sea example: a thin left-to-right boundary reveals detailed rolling waves, breaking surf and warm shafts of light. Both official outputs use 4 NFE and the same source example; no added blur or contrast adjustment. Their common source clock runs from 0 to 5 seconds and the revealed sea continues moving after 2.65 seconds.",
+      "assets": [
+        {
+          "id": "before",
+          "file": "rl-r1-baseline-4nfes.mp4",
+          "url": "https://reward-lightning.github.io/assets/videos/s2-vs-baseline/row1-baseline-4nfes.mp4",
+          "source_dimensions": [
+            1280,
+            720
+          ],
+          "source_fps": "16/1",
+          "source_duration": 5.0625,
+          "sha256": "a068473a75d004e1f029284ae7f63be5cb118c0719604c3224bb1538673716dd"
+        },
+        {
+          "id": "after",
+          "file": "rl-r1-our-4nfes.mp4",
+          "url": "https://reward-lightning.github.io/assets/videos/s2-vs-baseline/row1-our-4nfes.mp4",
+          "source_dimensions": [
+            1280,
+            720
+          ],
+          "source_fps": "16/1",
+          "source_duration": 5.0625,
+          "sha256": "201f45a6a20b2b5cfd7dc42164f69f3dfcad1d28c15adf78ec2c61bda5c97d84"
+        }
+      ],
+      "poster_selection": "Clean result frame at 1.5 seconds: bright god rays above the rocks and a coherent foreground wave crest.",
+      "dimensions": [
+        768,
+        432
+      ],
+      "selection_audit": "All 80 consecutive used result frames reviewed at original 16fps, plus baseline/result paired contacts. No fast cuts or unrelated scenes. Full post-wipe 2.35-second action remains original footage. Encoded at 24fps by frame sampling, not interpolation.",
+      "mode": "moving_reveal",
+      "moving_reveal": {
+        "before": "before",
+        "after": "after",
+        "source_start": 0.0,
+        "source_end": 5.0,
+        "start": 0.35,
+        "end": 2.65,
+        "label_end": 3.35,
+        "before_label": "Wan 2.2",
+        "after_label": "Reward Lightning",
+        "direction": "left to right, result revealed on the left",
+        "line_width": 2,
+        "motion_policy": "Both real sources sampled at source_start + output_time, 1x native motion throughout; no looping, holds, reverse, interpolation, zoom or synthetic degradation. Result keeps moving for 2.35 seconds after the wipe completes."
+      },
+      "comparison_evidence": {
+        "section_id": "sec-baseline",
+        "row": "row1",
+        "baseline_column": "Wan2.2-4NFEs",
+        "result_column": "Ours-4NFEs",
+        "prompt": "The sky and sea merge into a chaotic blend of gold, grey, and white paint.",
+        "condition": "Same official webpage comparison row and matching initial scene; both 4NFE.",
+        "cached_source_check": "Both previously cached r1 files are byte-identical to the current official URLs."
+      }
+    },
+    {
+      "slug": "v-pae",
+      "title": "Phased One-Step Adversarial Equilibrium for Video Diffusion Models",
+      "project_url": "https://v-pae.github.io/",
+      "paper_url": "https://arxiv.org/abs/2508.21019",
+      "source_section": "Official Comparison with Wan-I2V (Baseline), Group II regal woman / oil-painting example 3",
+      "duration": 5.0,
+      "poster_time": 3.75,
+      "composition": "Single real matched image-to-video comparison: the official 2NFE Wan-I2V result becomes blurred, while the official V-PAE 1NFE result retains a clear woman who gently turns her head and smiles. The blur is present in the published baseline video, never manufactured. One thin horizontal-traveling divider, then 2.35 seconds of uninterrupted original result motion.",
+      "assets": [
+        {
+          "id": "before",
+          "file": "vp-queen-before.mp4",
+          "url": "https://v-pae.github.io/assets/videos_pose_compressed/comparable/%E6%B2%B9%E7%94%BB%E9%A3%8E%E6%A0%BC_1280x720_3_base2.mp4",
+          "source_dimensions": [
+            1280,
+            720
+          ],
+          "source_fps": "16/1",
+          "source_duration": 5.0625,
+          "sha256": "2382ddd7c7f003966954ae285d3642e237a5aa1ca8860cd1ee1594bdab5881e4"
+        },
+        {
+          "id": "after",
+          "file": "vp-queen-after.mp4",
+          "url": "https://v-pae.github.io/assets/videos_pose_compressed/comparable/%E6%B2%B9%E7%94%BB%E9%A3%8E%E6%A0%BC_1280x720_3_pose_1.mp4",
+          "source_dimensions": [
+            1280,
+            720
+          ],
+          "source_fps": "16/1",
+          "source_duration": 5.0625,
+          "sha256": "dfd0e22dc31399e2674071eced511ca4880bc3175af7e34551433c47f0848abc"
+        }
+      ],
+      "poster_selection": "Clean result frame at 3.75 seconds with open eyes, a natural smile and the complete face in warm portrait lighting.",
+      "dimensions": [
+        768,
+        432
+      ],
+      "selection_audit": "All 80 consecutive used result frames reviewed at original 16fps, plus baseline/result paired contacts. No fast cuts or unrelated scenes. Full post-wipe 2.35-second action remains original footage. Encoded at 24fps by frame sampling, not interpolation.",
+      "mode": "moving_reveal",
+      "moving_reveal": {
+        "before": "before",
+        "after": "after",
+        "source_start": 0.0,
+        "source_end": 5.0,
+        "start": 0.35,
+        "end": 2.65,
+        "label_end": 3.35,
+        "before_label": "Wan I2V · 2 NFE",
+        "after_label": "Phased OAE · 1 NFE",
+        "direction": "left to right, result revealed on the left",
+        "line_width": 2,
+        "motion_policy": "Both real sources sampled at source_start + output_time, 1x native motion throughout; no looping, holds, reverse, interpolation, zoom or synthetic degradation. Result keeps moving for 2.35 seconds after the wipe completes."
+      },
+      "comparison_evidence": {
+        "section_id": "video-comparison-container",
+        "group": "Group II",
+        "example": "油画风格_1280x720_3",
+        "baseline_column": "WanI2V-2NFE, Guidance Sclae=6",
+        "result_column": "V-PAE-1NFE, Guidance Sclae=1",
+        "condition": "Same official Group II prompt and identical input image; baseline and result retain their published settings.",
+        "naming_note": "The section introduction says Wan-I2V-1NFE/guidance=1, but the actual Group II column label and filename explicitly identify base2 / WanI2V-2NFE/guidance=6. Caption follows the explicit column label and records this source inconsistency rather than equating NFE with sampling steps. Phased OAE is the homepage paper name for the official V-PAE model."
+      }
+    },
+    {
+      "slug": "hunyuanvideo",
+      "title": "HunyuanVideo: A Systematic Framework For Large Video Generative Models",
+      "project_url": "https://aivideo.hunyuan.tencent.com/",
+      "paper_url": "https://arxiv.org/abs/2412.03603",
+      "source_section": "Original 13B part-1 gallery plus original December 2024 README demo. No Avatar, 1.5 or later model footage.",
+      "duration": 6.5,
+      "poster_time": 2.9,
+      "composition": "6.5-second text-to-video sequence: motorcycle tracking shot, a surfer entering a turquoise barrel before whitewater closes, then fish swimming through coral. The 16:9 frame preserves the wave arc and full official corner watermark. Only source motion, with a three-frame dissolve between worlds.",
+      "assets": [
+        {
+          "id": "hv-1-2",
+          "file": "hv-1-2.mp4",
+          "url": "https://aivideo.hunyuan.tencent.com/movie/part-1/part-1-2.mp4",
+          "source_dimensions": [
+            1280,
+            720
+          ],
+          "source_fps": "24/1",
+          "source_duration": 5.375
+        },
+        {
+          "id": "hv-official-demo",
+          "file": "hv-official-demo.mp4",
+          "url": "https://github.com/user-attachments/assets/22440764-0d7e-438e-a44d-d0dad1006d3d",
+          "evidence_url": "https://github.com/Tencent-Hunyuan/HunyuanVideo#-demo",
+          "source_dimensions": [
+            1280,
+            720
+          ],
+          "source_fps": "25/1",
+          "source_duration": 78.12,
+          "provenance": "Original HunyuanVideo README demo, asset Last-Modified 13 Dec 2024; only natural-scene model results selected, no cards. Source corner watermark retained wherever aspect-ratio crop permits."
+        }
+      ],
+      "shots": [
+        {
+          "output": [
+            0,
+            2.625
+          ],
+          "source": [
+            1.15,
+            3.775
+          ],
+          "asset": "hv-1-2",
+          "content": "Tracking a moving motorcycle",
+          "focus": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "output": [
+            2.5,
+            4.25
+          ],
+          "source": [
+            44.9,
+            46.65
+          ],
+          "asset": "hv-official-demo",
+          "content": "Surfer inside turquoise wave",
+          "focus": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "output": [
+            4.125,
+            6.5
+          ],
+          "source": [
+            12.5,
+            14.875
+          ],
+          "asset": "hv-official-demo",
+          "content": "Colorful fish swimming at a coral reef",
+          "focus": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "poster_selection": "Turquoise wave barrel with a clear surfer silhouette and sweeping curved composition; away from the dissolve.",
+      "dimensions": [
+        768,
+        432
+      ],
+      "cues": [
+        {
+          "output": [
+            0.2,
+            2.1
+          ],
+          "text": "text to video",
+          "accent": [
+            174,
+            210,
+            255
+          ],
+          "position": "lower-left, transparent glyph-only shadow",
+          "evidence": "Original 13B part-1 gallery plus original December 2024 README demo. No Avatar, 1.5 or later model footage."
+        }
+      ],
+      "selection_audit": "Selected source ranges reviewed at six evenly spaced frames per shot; original motion retained and no inserted title cards. Detailed selected-range contact sheets stored externally in generation/cinematic/compact."
+    }
+  ]
+}
