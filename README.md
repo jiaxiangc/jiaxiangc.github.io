@@ -100,10 +100,14 @@ offset. Visits that were never recorded cannot be recovered retroactively.
 Repeated page loads count as additional views; this is not a count of people.
 Blocking extensions or browser privacy settings can affect totals.
 
-The asynchronous third-party script loads only on the HTTPS production hostname
-`jiaxiangc.github.io`. Local previews and forks show `— views`
-without loading the service or submitting visits. On production, counters remain
-hidden until data is available. No account or API key is
+The counter sends one asynchronous JSONP request per page load, only on the HTTPS
+production hostname `jiaxiangc.github.io`. It uses the same endpoint and referrer
+policy as Busuanzi's official client. Local previews and forks show `— views`
+without loading the service or submitting visits. The footer always remains
+visible: `— views` means the count has not loaded, not zero views. Its tooltip
+indicates loading or temporary unavailability after eight seconds; a late valid
+response still replaces the placeholder. Failed requests are not retried
+automatically, to avoid counting a page load twice. No account or API key is
 required. To disable collection, remove the `site-visits.js` script tag from
 `index.html`.
 
