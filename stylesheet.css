@@ -141,20 +141,15 @@ span.highlight {
   white-space: nowrap;
 }
 
-.site-visits {
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Compact previews from official demos and published result figures. */
+/* Complete original figures on white; hover/tap plays the corresponding video. */
 .paper-preview {
   position: relative;
   width: 200px;
   max-width: 100%;
   overflow: hidden;
   isolation: isolate;
-  --cover-accent: #c6f4ee;
   aspect-ratio: var(--preview-ratio, 5 / 3);
+  min-height: 120px;
 }
 
 .paper-preview.is-portrait { width: 152px; }
@@ -166,79 +161,22 @@ span.highlight {
   height: auto;
 }
 
-.paper-preview video { height: 100%; object-fit: cover; }
+.paper-preview video { height: 100%; object-fit: contain; background: #fff; }
 
 /* The selected cover remains visible until the video actually starts. */
 .paper-preview .preview-cover {
   position: absolute;
   inset: 0;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #fff;
   pointer-events: none;
   z-index: 1;
 }
 
-/* An editorial cover: real imagery, a small input trace, and in-image type.
-   The entire treatment disappears during playback; there is no title band. */
-.preview-art {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding: 11px 12px;
-  box-sizing: border-box;
-  background: linear-gradient(180deg, transparent 37%, rgba(8,16,24,.06) 48%, rgba(8,16,24,.68) 100%);
-  color: #fff;
-  text-align: left;
-  pointer-events: none;
-  transition: opacity 160ms ease;
-}
-
-.preview-art svg {
-  width: 37px;
-  height: 13px;
-  margin-bottom: 5px;
-  overflow: visible;
-  color: var(--cover-accent);
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,.3));
-}
-
-.preview-art .cover-label {
-  font-family: 'Avenir Next', 'Lato', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -.2px;
-  text-shadow: 0 1px 5px rgba(0,0,0,.3);
-}
-
-.preview-art .cover-detail {
-  margin-top: 4px;
-  font-size: 8.5px;
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: .08px;
-  color: rgba(255,255,255,.86);
-}
-
-/* Comparison imagery stays readable; one quiet descriptor is enough. */
-.preview-art--quiet {
-  padding: 9px 11px;
-  background: linear-gradient(180deg, transparent 64%, rgba(8,16,24,.46) 100%);
-}
-
-.preview-art--quiet svg,
-.preview-art--quiet .cover-detail { display: none; }
-
-.preview-art--quiet .cover-label { font-size: 12px; }
-
 .paper-preview.is-enhanced video { opacity: 0; }
 .paper-preview.is-playing video { opacity: 1; }
 .paper-preview.is-playing .preview-cover { opacity: 0; }
-.paper-preview.is-playing .preview-art { opacity: 0; }
 
 .preview-toggle {
   position: absolute;

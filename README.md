@@ -13,7 +13,6 @@ A minimal static site based on [Jon Barron's website template](https://github.co
 - `images/` — avatar, paper thumbnails, logos, and favicons
 - `videos/` — compact previews for all ten publications and preprints
 - `paper-previews.js` — hover playback, selected covers, and touch/keyboard controls
-- `site-visits.js` — production-only page-view counter
 - `.nojekyll` — tells GitHub Pages to serve the HTML directly without a Jekyll build
 
 ## Local preview
@@ -33,83 +32,62 @@ the video. Touch users can tap, and keyboard users can press Enter or Space on
 the cover to toggle playback. Reduced-motion users get explicit play controls
 without hover playback. Videos stop offscreen or when the page is hidden.
 
-Previews last 5–8 seconds. Landscape compositions keep the publication list
-consistent, with thumbnails displayed at 200px wide. Static covers pair an
-authentic image with a small research descriptor inside the image. This web overlay
-fades out during playback. There are no separate title bars or caption cards.
+Previews last 5–8 seconds. Covers show complete original paper figures on white, preserving every panel,
+label and original aspect ratio. No architecture is redrawn and no promotional overlay is added.
+Hunyuan-Game retains the previously selected reference/structure/result cover.
+Covers remain separate from the existing hover clips.
 
-Hy-Nomas combines three official demonstrations in 7.875 seconds: a ray passing
-over Coral City, a robotics adaptation separating nested cups, and a winged
-character flying above a coastal palace. A short transparent method
-trace is based on official Figures 5 and 9. An in-frame cue identifies the
-robotics adaptation. Each shot keeps the published playback
-speed. The final flight uses medium framing that preserves both wings; feet
-leave the lower crop. Its poster shows the two grippers separating the cups,
-with the world-model descriptor rendered separately in the webpage.
+The selected artwork preserves each paper's own presentation:
 
-Source selection prioritizes attractive lighting, composition, clear subjects,
-and sustained movement. Real video results use short, carefully selected
-sequences with restrained cuts or dissolves. Figure-only papers use larger
-original images where available. Reward Lightning and Phased OAE use horizontal
-reveals between paired official videos: both sides play at their original speed,
-and the result keeps moving after the divider leaves. ResAdapter, IPA and
-FaithfulFaces use published image comparisons with a subtle, matched camera
-push-in that continues after the reveal. This is editorial camera movement,
-not synthesized subject motion. The corresponding source conditions are recorded
-in the manifests. Brief transparent annotations identify methods without separate
-title bars. PersonaVlog uses quieter, sustained character action.
+- Hy-Nomas: complete Figure 1 from the official technical report.
+- FaithfulFaces: complete published training and inference framework.
+- Reward Lightning: complete dataset, reward modeling and distillation pipeline.
+- IPA: complete original preference-alignment framework.
+- Phased One-step: complete original diagram with all training phases.
+- ResAdapter: complete original pipeline, including all method-detail panels.
+- Hunyuan-Game: appearance reference, structural guidance and generated character.
+- HunyuanVideo: original model overview.
+- Beyond Reward Margin: complete original Figure 2 with both analysis panels.
+- PersonaVlog: complete published multimodal-agent framework.
 
-All visual results come from official project demos or published paper figures.
-No intermediate model results are synthesized. Source URLs, crop coordinates,
-time ranges, and selection notes are recorded in the
-`scripts/*_motion_sources.json` manifests. `scripts/video_preview_sources.json`
-indexes them.
+Complete originals remain in `images/paper-methods/`. Current whole-figure
+exports, source hashes and output hashes are recorded in
+`scripts/full_paper_cover_sources.json`. Hy-Nomas Figure 1 extraction is recorded
+in `scripts/full_figure_hynomas_sources.json`. The full-figure manifest also records
+the official source URLs and figure identities.
 
-Rebuild with Python 3, Pillow, NumPy, OpenCV, PyMuPDF, and FFmpeg.
-PyMuPDF extracts the original images embedded in the IPA and FaithfulFaces papers:
+Wide figures fit completely inside a white preview area. The minimum preview
+height keeps the hover/tap videos visible without clipping or stretching either
+medium. No extra text links are shown below the covers.
+
+### Rebuilding
 
 ```sh
-python3 scripts/build_paper_previews.py
-# Or rebuild one paper:
-python3 scripts/build_paper_previews.py --paper hy-nomas
-# Optionally choose an external cache and contact-sheet directory:
-python3 scripts/build_paper_previews.py --source-dir /tmp/paper-sources --contact-dir /tmp/paper-contacts
+python3 scripts/build_full_paper_covers.py
 ```
 
-The builders download missing original assets to the external cache. Only the
-finished MP4s and JPEG posters belong in the site. Fonts are used for external
-review sheets and transparent in-scene cues. `scripts/motion_common.py` contains the shared sampler
-and encoder; each group has its own edit builder.
+This exports all nine whole figures from the saved originals, using proportional
+scaling and white transparency compositing only. It performs no figure crops,
+rearrangement, relabeling, or synthesis. Hunyuan-Game keeps its approved cover.
+To rebuild current clips, follow `current_clip_rebuild_order` in
+`scripts/video_preview_sources.json`: build the base clips, then apply the Game,
+FaithfulFaces, Reward Lightning, Phased One-Step, Beyond Reward Margin and
+ResAdapter overrides in that order. Run the full-figure exporter last. The Game
+batch writes an older ResAdapter clip, so the final ResAdapter override is required.
+Each step lists its source manifest; pass external cache/scratch directories to
+the builders as required. Legacy clip builders also emit obsolete cover drafts;
+only the active whole-figure exports and approved Game poster should be published.
 
-Hy-Nomas resolves temporary download URLs from the official model page at build
-time. If automatic downloading fails, save the original official media in
-`--source-dir` using the manifest filenames. Do not commit signed download URLs.
+Hy-Nomas resolves temporary video download URLs from the official model page at
+build time. If automatic downloading fails, save the original official media in
+`--source-dir` using the relevant motion manifest filenames. Do not commit signed
+URLs.
 
 ## University emblems
 
 Education uses original official artwork from
 [Beihang University](https://buaa.edu.cn/xygk/jrbh0116old/bhxh.htm) and
 [Xidian University](https://xcb.xidian.edu.cn/info/1008/1094.htm).
-
-## Page views
-
-The copyright line displays total page views (PV) using
-[Busuanzi's official counter](https://ibruce.info/2015/04/04/busuanzi/).
-It uses the total returned by the provider without resetting it or adding an
-offset. Visits that were never recorded cannot be recovered retroactively.
-Repeated page loads count as additional views; this is not a count of people.
-Blocking extensions or browser privacy settings can affect totals.
-
-The counter sends one asynchronous JSONP request per page load, only on the HTTPS
-production hostname `jiaxiangc.github.io`. It uses the same endpoint and referrer
-policy as Busuanzi's official client. Local previews and forks show `— views`
-without loading the service or submitting visits. The footer always remains
-visible: `— views` means the count has not loaded, not zero views. Its tooltip
-indicates loading or temporary unavailability after eight seconds; a late valid
-response still replaces the placeholder. Failed requests are not retried
-automatically, to avoid counting a page load twice. No account or API key is
-required. To disable collection, remove the `site-visits.js` script tag from
-`index.html`.
 
 ## Acknowledgements
 

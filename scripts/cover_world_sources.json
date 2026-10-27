@@ -1,0 +1,101 @@
+{
+  "hy-nomas": {
+    "source_page": "https://hy.tencent.com/model/open-source-model/detail?id=hy-nomas",
+    "source_url": "https://hy-model-ap-prod-1258344703.cos.ap-guangzhou.myqcloud.com/llm-blog/default/323a6063/2026102317595821_6c5ce50cf275899541755de746f010a0.mov",
+    "frame_seconds": 7.5,
+    "source_crop_xywh": [
+      310,
+      120,
+      1300,
+      690
+    ],
+    "video": "Existing approved three-shot montage is unchanged.",
+    "description": "Original robot/cup result with a small white annotation band explaining text control and robotics adaptation."
+  },
+  "hunyuan-game": {
+    "source_page": "https://cdn-portal.hunyuan.tencent.com/game/index.html",
+    "source_urls": [
+      "https://cdn-portal.hunyuan.tencent.com/game/assets/images/game_character/p2_o.png",
+      "https://cdn-portal.hunyuan.tencent.com/game/assets/images/game_character/p2_g.png"
+    ],
+    "description": "Official Game Character Generation input (appearance reference plus white structure model) and corresponding textured result. Full originals are retained.",
+    "video": "Seven-second editorial reveal of the published static pair; no generated motion or synthesized intermediate poses."
+  },
+  "resadapter": {
+    "source_page": "https://res-adapter.github.io/",
+    "source_url": "https://res-adapter.github.io/assets/dreamlike1.png",
+    "description": "Published Dreamlike fox results at 1024×1024, 336×432, and 224×288. Exact original figure crops are recorded in samples; no resizing claim is inferred from layout.",
+    "samples": [
+      {
+        "result_xywh": [
+          72,
+          0,
+          560,
+          560
+        ],
+        "baseline_xywh": [
+          632,
+          0,
+          564,
+          560
+        ],
+        "layout_xywh": [
+          12,
+          39,
+          330,
+          330
+        ],
+        "native_resolution": "1024 × 1024"
+      },
+      {
+        "result_xywh": [
+          72,
+          571,
+          182,
+          235
+        ],
+        "baseline_xywh": [
+          254,
+          571,
+          184,
+          235
+        ],
+        "layout_xywh": [
+          364,
+          131,
+          184,
+          238
+        ],
+        "native_resolution": "336 × 432"
+      },
+      {
+        "result_xywh": [
+          72,
+          819,
+          134,
+          176
+        ],
+        "baseline_xywh": [
+          208,
+          819,
+          140,
+          176
+        ],
+        "layout_xywh": [
+          570,
+          197,
+          131,
+          172
+        ],
+        "native_resolution": "224 × 288"
+      }
+    ],
+    "video": "Seven-second synchronized baseline-to-ResAdapter reveal of these same published static results; no generated subject motion."
+  },
+  "original_sha256": {
+    "res-dreamlike1.png": "f859e24662ddb6aa5cce95ae1bf57345ef65c6e5585613e69f61c8f4c2146717",
+    "game-character-2-o.png": "a866ac4c71c8c8a2b1b91926ce5bfbaf0ef9b8323270eafe734dd37ced0f45eb",
+    "game-character-2-g.png": "5d009c5a25724980c2cfecebe513c01988b2f2e24b22caff168ca22fad5963de",
+    "hy-nomas-robot-source.jpg": "9244a5b81b80d0cd1211067996a29935533f1b28cae292037c5996c0912fe00b"
+  }
+}

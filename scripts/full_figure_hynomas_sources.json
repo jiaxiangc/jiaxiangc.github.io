@@ -1,0 +1,43 @@
+{
+  "source_url": "https://github.com/Tencent-Hunyuan/Hy-Nomas/blob/main/Hy_Nomas_Tech_Report.pdf",
+  "download_url": "https://raw.githubusercontent.com/Tencent-Hunyuan/Hy-Nomas/main/Hy_Nomas_Tech_Report.pdf",
+  "pdf_sha256": "6f23e40e17a5dd56853743789104c634675526ec15a0121014ad3c75cf5d67d4",
+  "pdf_page_number": 1,
+  "figure": "Figure 1: Interactive world generation with Hy-Nomas",
+  "embedded_form": {
+    "xref": 1186,
+    "resource_name": "Im4",
+    "original_source_name": "./figures/figure_modified/teaser_1024_02_06_02.pdf",
+    "bbox": [
+      0,
+      0,
+      948,
+      601
+    ]
+  },
+  "original_page_placement": {
+    "translation_pdf_coordinates": [
+      85.039,
+      199.233
+    ],
+    "scale": 0.44852
+  },
+  "extraction": "Render the entire original embedded Form XObject with all original resources, on its full 948\u00d7601 BBox. No internal crop, panel removal, recoloring, label changes, added text or artwork. Caption prose below the figure is excluded because it is outside the figure Form.",
+  "content_check": [
+    "All five original example sequences retained",
+    "Central world panorama retained",
+    "Hy-Nomas logo and label retained",
+    "All native prompt/camera labels retained",
+    "Full bottom input / Prompt Enhancer / Autoregressive DiT / continuation loop and KV cache retained"
+  ],
+  "outputs": [
+    {
+      "path": "images/paper-methods/hy-nomas-figure1.png",
+      "dimensions": [
+        2844,
+        1803
+      ],
+      "sha256": "4cf0e25e625bb1158bb3f7c8d6ecab2083c27d0e574e61f90cf11e0a36d2e79a"
+    }
+  ]
+}

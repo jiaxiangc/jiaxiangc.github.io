@@ -1,0 +1,144 @@
+{
+  "policy": "Complete original published figures only. Every original panel and label is retained. Only proportional scaling and transparency compositing on white are permitted.",
+  "builder": "python3 scripts/build_full_paper_covers.py",
+  "covers": {
+    "faithfulfaces": {
+      "source": "images/paper-methods/faithfulfaces.svg",
+      "source_sha256": "1083b77e5ff4642ddd7fe4050d92badfce93fb48b5c9817a5f3dde7f6e097f93",
+      "file": "images/paper-previews/faithfulfaces-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        655
+      ],
+      "sha256": "eaec9a5c1a8d60a36adfa4a87be34e41a7efc712691f0fb23c27895b85f5fa65",
+      "operation": "Render entire original vector figure on white at 1200px width.",
+      "crop": null,
+      "source_url": "https://mdswyz.github.io/FaithfulFaces/assets/framework-vector.svg",
+      "figure": "Figure 2; complete official training and inference framework."
+    },
+    "reward-lightning": {
+      "source": "images/paper-methods/reward-lightning.jpg",
+      "source_sha256": "9e95d55f6c395e4f7f00a9d4e964f07b0a004969e8c0e5c8e65a6833f9912d23",
+      "file": "images/paper-previews/reward-lightning-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        667
+      ],
+      "sha256": "ce34990f74fcd3cb2d85c48b5735a961957af9f9592fcf40ef0e1d64c2f8c687",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://reward-lightning.github.io/assets/images/pipeline.jpg",
+      "figure": "Figure 2; complete panels (a) dataset, (b) latent reward modeling and (c) preference distillation."
+    },
+    "ipa": {
+      "source": "images/paper-methods/ipa.png",
+      "source_sha256": "c79746cb1527f89153b7df6e7382ba9780ffa06bf8213501992583ce5c0acc57",
+      "file": "images/paper-previews/ipa-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        307
+      ],
+      "sha256": "007281986f5afb8c457fa2345af1f314314355c4ad7b3750119db25d59e9b385",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://raw.githubusercontent.com/mdswyz/IPA/main/assets/framework.png",
+      "figure": "Figure 1; complete official preference-alignment framework."
+    },
+    "v-pae": {
+      "source": "images/paper-methods/v-pae.jpg",
+      "source_sha256": "1a090e3b38702192284f72fa0cd2d8a9ca51d28ce57c830704039ac239ab560a",
+      "file": "images/paper-previews/v-pae-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        583
+      ],
+      "sha256": "d91188526c34468ef27bb76ca8b4f47091886065d3c746b2ed98030fb1f5e683",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://v-pae.github.io/assets/images/pipeline.jpg",
+      "figure": "Figure 3; complete official diagram with all three panels."
+    },
+    "resadapter": {
+      "source": "images/paper-methods/resadapter.png",
+      "source_sha256": "e04c83c7efbf4f705a8152f6615b9371a9849d48f8d0bd93ef7d49aa83701182",
+      "file": "images/paper-previews/resadapter-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        562
+      ],
+      "sha256": "f3d9f66609ae68f4fe655eebc93b3963e15b76dd6e51c3931c965c4904faf48d",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://res-adapter.github.io/assets/pipeline.png",
+      "figure": "Complete official method pipeline, including all detail panels."
+    },
+    "hunyuanvideo": {
+      "source": "images/paper-methods/hunyuanvideo-overall.png",
+      "source_sha256": "1f1cb64d8d16cb76f7bb01d3b5e3224724f1bd0ee6d856150a7d0b210fd172e5",
+      "file": "images/paper-previews/hunyuanvideo-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        526
+      ],
+      "sha256": "7787a554edbb666d541eb759d8a08cde13e16a83d5afe2e0afef4647d8c1edf3",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://raw.githubusercontent.com/Tencent-Hunyuan/HunyuanVideo/main/assets/overall.png",
+      "figure": "Complete official model overview."
+    },
+    "beyond-reward": {
+      "source": "images/paper-methods/beyond-reward.png",
+      "source_sha256": "e24450663aa15b5c6c06563ba6a67e628c8be5dc803b5f8a42cf668bd722f8ec",
+      "file": "images/paper-previews/beyond-reward-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        505
+      ],
+      "sha256": "4792b6ed647c40b6702cc6c0d7538338b24a1e439494b91328134f439b6f70b2",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://arxiv.org/pdf/2511.19049v1",
+      "figure": "Figure 2; PDF page 7, both complete analysis panels and original caption.",
+      "source_extraction": {
+        "pdf_page": 7,
+        "pdf_rect_points": [
+          104,
+          74,
+          508,
+          244
+        ],
+        "render_scale": 4,
+        "pdf_sha256": "d81b4f27cc6f4945ba0b9a0d9a834982da142bddd133739a7ee5596ce1cd9129",
+        "note": "The rectangle contains the entire Figure 2, both panels and caption; it only excludes surrounding page content."
+      }
+    },
+    "personavlog": {
+      "source": "images/paper-methods/personavlog.jpg",
+      "source_sha256": "9ad27b91e1f38f36e234fc95f098c23102ca2deb4d5a39abecf504dfca83a2c1",
+      "file": "images/paper-previews/personavlog-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        681
+      ],
+      "sha256": "904b005979783e8e64f7bc105f9365446bf9d3d6698607fe414f8379aa165cfa",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://personavlog-paper.github.io/static/images/pipeline.jpg",
+      "figure": "Complete official multimodal-agent framework."
+    },
+    "hy-nomas": {
+      "source": "images/paper-methods/hy-nomas-figure1.png",
+      "source_sha256": "4cf0e25e625bb1158bb3f7c8d6ecab2083c27d0e574e61f90cf11e0a36d2e79a",
+      "file": "images/paper-previews/hy-nomas-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        761
+      ],
+      "sha256": "824d0525c518d15f89ecc0905edcf3393be8e41c00682201ae2e3ffff3009cb9",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://raw.githubusercontent.com/Tencent-Hunyuan/Hy-Nomas/main/Hy_Nomas_Tech_Report.pdf",
+      "figure": "Figure 1; complete embedded figure, PDF page 1. Extraction recorded in full_figure_hynomas_sources.json."
+    }
+  }
+}

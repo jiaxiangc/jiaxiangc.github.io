@@ -1,10 +1,10 @@
 {
-  "description": "Compact 5–8 second publication previews with media-specific aspect ratios and designed static web covers.",
+  "description": "Compact hover/tap videos with complete original published-figure covers on white.",
   "format": {
     "fps": 24,
     "codec": "H.264",
     "audio": false,
-    "dimensions": "Landscape: 720×432 or 768×432; recorded in group manifests.",
+    "dimensions": "Landscape: 720\u00d7432 or 768\u00d7432; recorded in group manifests.",
     "duration_range_seconds": [
       5,
       8
@@ -17,5 +17,72 @@
     "identity_game_motion_sources.json",
     "generation_motion_sources.json"
   ],
-  "builder": "build_paper_previews.py"
+  "builder": "build_paper_previews.py (base previews; apply ordered current-clip overrides below)",
+  "rebuild_order": "Run current_clip_rebuild_order sequentially; base builders alone do not reproduce current clips. Source/cache and scratch directories are external command-line arguments. Legacy clip builders also emit obsolete cover drafts; those outputs are not active covers and should not be published.",
+  "active_cover_naming": "*-full-paper-cover.png, except the approved hunyuan-game-poster.jpg",
+  "active_cover_manifests": [
+    "full_paper_cover_sources.json",
+    "full_figure_hynomas_sources.json"
+  ],
+  "active_cover_builder": "build_full_paper_covers.py",
+  "current_clip_manifests": [
+    "cover_world_sources.json",
+    "cover_identity_sources.json",
+    "cover_refine_reward_sources.json",
+    "cover_refine_onestep_sources.json",
+    "cover_refine_beyond_sources.json",
+    "cover_refine_resadapter_sources.json"
+  ],
+  "current_clip_rebuild_order": [
+    {
+      "step": 1,
+      "builder": "build_paper_previews.py",
+      "purpose": "Build the base ten previews. Hy-Nomas, IPA, HunyuanVideo and PersonaVlog retain these clips; the remaining clips are replaced by the following steps."
+    },
+    {
+      "step": 2,
+      "builders": [
+        "cover_world_thumbnails.py",
+        "cover_world_render.cjs"
+      ],
+      "manifest": "cover_world_sources.json",
+      "purpose": "Rebuild the approved Hunyuan-Game poster and clip. This legacy batch also writes an older ResAdapter clip; step 7 must follow."
+    },
+    {
+      "step": 3,
+      "builder": "cover_identity_thumbnails.py",
+      "manifest": "cover_identity_sources.json",
+      "purpose": "Replace FaithfulFaces with its continuous official boxing clip."
+    },
+    {
+      "step": 4,
+      "builder": "cover_refine_reward.py",
+      "manifest": "cover_refine_reward_sources.json",
+      "purpose": "Replace Reward Lightning with the synchronized four-NFE cherry-street comparison."
+    },
+    {
+      "step": 5,
+      "builder": "cover_refine_onestep.py",
+      "manifest": "cover_refine_onestep_sources.json",
+      "purpose": "Replace Phased One-Step with the continuous official one-NFE snow-forest clip."
+    },
+    {
+      "step": 6,
+      "builder": "cover_refine_beyond.py",
+      "manifest": "cover_refine_beyond_sources.json",
+      "purpose": "Replace Beyond Reward Margin with the published coastal comparison reveal."
+    },
+    {
+      "step": 7,
+      "builder": "cover_refine_resadapter.py",
+      "manifest": "cover_refine_resadapter_sources.json",
+      "purpose": "Replace the legacy ResAdapter output with the accepted photographic bird comparison. Run after the Game batch."
+    },
+    {
+      "step": 8,
+      "builder": "build_full_paper_covers.py",
+      "manifest": "full_paper_cover_sources.json",
+      "purpose": "Export the nine complete original figures used as active covers. Keep the approved Hunyuan-Game poster."
+    }
+  ]
 }

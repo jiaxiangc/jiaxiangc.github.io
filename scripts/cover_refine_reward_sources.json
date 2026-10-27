@@ -1,0 +1,49 @@
+{
+  "project": "https://reward-lightning.github.io/#sec-baseline",
+  "section": "Comparison with Baseline / Visualization Comparison with Wan2.2-I2V",
+  "row": 4,
+  "columns": [
+    "Wan2.2-4NFEs",
+    "Ours-4NFEs"
+  ],
+  "prompt": "Forward street movement during 'Sakura Fubuki'; petals swirl toward camera in hazy morning sunlight.",
+  "sources": {
+    "baseline": {
+      "url": "https://reward-lightning.github.io/assets/videos/s2-vs-baseline/row4-baseline-4nfes.mp4",
+      "sha256": "8dd10b3ab98be03227da4dc3c3ea16649cd7705666dcf8143edd2d5624d43a96"
+    },
+    "our": {
+      "url": "https://reward-lightning.github.io/assets/videos/s2-vs-baseline/row4-our-4nfes.mp4",
+      "sha256": "12fed40b05d399610346b01e3ad39b8728a557c27cece1180a085ec891560869"
+    }
+  },
+  "poster": {
+    "source_time": 2.0,
+    "size": [
+      400,
+      225
+    ],
+    "baseline_region": [
+      0,
+      0,
+      136,
+      225
+    ]
+  },
+  "video": {
+    "duration": 5.0,
+    "size": [
+      768,
+      432
+    ],
+    "fps": 24,
+    "source_times": [
+      0,
+      5
+    ],
+    "speed": 1,
+    "reveal": "Baseline starts at left 34% and shrinks to zero by 2.6 seconds; both originals advance together throughout."
+  },
+  "labels": "4 NFE is shared by both methods. Preference distilled identifies the actual method result; it is not a score or an invented preference label.",
+  "pixel_policy": "Official outputs only. Scale and frame sampling; no retouching, color grading, blur, interpolated motion, holds or repeated scene loops."
+}

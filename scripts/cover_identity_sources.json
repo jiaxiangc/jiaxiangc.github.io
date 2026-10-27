@@ -1,0 +1,101 @@
+{
+  "description": "Research thumbnails assembled with code-native SVG image placement. All research imagery is copied or cropped from original official sources without retouching, compositing image pixels, generated outputs or synthesized motion.",
+  "builder": "python3 scripts/cover_identity_thumbnails.py --source-dir /path/to/extracted-official-images",
+  "dimensions": [
+    720,
+    432
+  ],
+  "thumbnail_display": [
+    200,
+    120
+  ],
+  "covers": {
+    "faithfulfaces": {
+      "cover": "images/paper-previews/faithfulfaces-research-cover.svg",
+      "layout": "Left: exact square reference image and small Reference label/arrow. Right: two full-width official boxing frames at 0.75s and 4.75s. White scientific comparison layout, no promotional typography.",
+      "project": "https://mdswyz.github.io/FaithfulFaces/",
+      "paper": "https://arxiv.org/abs/2605.04702",
+      "reference_url": "https://mdswyz.github.io/FaithfulFaces/assets/videos/fig1_fig12-reference.png",
+      "video_url": "https://mdswyz.github.io/FaithfulFaces/assets/videos/fig1_fig12.mp4",
+      "source_video_sha256": "98edf8d54bc5bc69ceb7fcabf03979de1640d93fc1621e8d747b5f6162f20e9c",
+      "video": "videos/faithfulfaces-preview.mp4",
+      "video_interval": [
+        0,
+        5.0625
+      ],
+      "output_duration": 5.083333,
+      "video_encoding": "ffmpeg -i SOURCE -t 5.0625 -vf scale=720:432:force_original_aspect_ratio=increase,crop=720:432,setsar=1,fps=24 -an -c:v libx264 -preset slow -crf 21 -pix_fmt yuv420p -movflags +faststart OUTPUT",
+      "motion": "Entire original 16fps boxing video sampled to 24fps without interpolation or speed changes. Only small center crop for 5:3 container. Replaces prior static Figure 13 park comparison.",
+      "figures": "Figures 1 and 12",
+      "poster_alt": "Input reference face and two official FaithfulFaces boxing frames showing facial occlusion and a changed head pose.",
+      "video_aria_label": "FaithfulFaces: continuous generated boxing video from a single reference face. Hover or focus to play."
+    },
+    "ipa": {
+      "cover": "images/paper-previews/ipa-research-cover.svg",
+      "layout": "Matched second displayed column of the right-hand Figure 8 example: VACE xref 893 on the left, IPA/Ours xref 873 on the right. Identical SVG crop (x=0,y=38,w=240,h=260) preserves faces and hand gestures. Labels identify actual method rows.",
+      "paper": "https://arxiv.org/pdf/2605.07545v1",
+      "paper_sha256": "53736991a559351f8cd719dbeb449cc88645949ce5cd8a50392ae6a0b1608f5f",
+      "source_images": [
+        {
+          "file": "ipa-xref893.png",
+          "pdf_page": 18,
+          "xref": 893,
+          "method": "VACE"
+        },
+        {
+          "file": "ipa-xref873.png",
+          "pdf_page": 18,
+          "xref": 873,
+          "method": "IPA / Ours"
+        }
+      ],
+      "video": "videos/ipa-preview.mp4",
+      "video_change": "None. Retains existing verified seven-second paper-still comparison with editorial reveal; no official matching original video is published.",
+      "image_note": "Original embedded PDF image bytes exclude annotation rectangles drawn separately in PDF. No image pixels were retouched."
+    },
+    "personavlog": {
+      "cover": "images/paper-previews/personavlog-research-cover.svg",
+      "layout": "Four tall panels: photographic reference shown in the official comparison figure, followed by three frames of the same printed-dress character from official video 03, in garden, sketching and woodland scenes. Small Reference / Generated story headings make the input and stylized output explicit.",
+      "project": "https://personavlog-paper.github.io/",
+      "paper": "https://arxiv.org/abs/2508.13602",
+      "reference_figure_url": "https://personavlog-paper.github.io/static/images/baseline_01.jpg",
+      "reference_figure_sha256": "08033af0f56fe26cb7415ba0aa5baee8a95c9101a687c0488bb771d6f4803d4a",
+      "reference_crop_xywh": [
+        2420,
+        220,
+        550,
+        970
+      ],
+      "reference_extraction": "ffmpeg -i baseline_01.jpg -vf crop=550:970:2420:220 -frames:v 1 -q:v 2 personavlog-reference.jpg",
+      "reference_scope": "The figure and video use the same printed-dress reference character across different narrative themes; the cover makes no claim that the coastal figure and woodland video have the same theme.",
+      "video_url": "https://personavlog-paper.github.io/static/videos/03.mp4",
+      "source_video_sha256": "42d65231d08a88628e1e71e257f2be49ce7962866dc30319d7694e5fdbe1e918",
+      "poster_frame_times": [
+        10,
+        14,
+        18
+      ],
+      "video": "videos/personavlog-preview.mp4",
+      "video_change": "None. Retains existing continuous 12.75\u201319.5 second official excerpt, 6.75 seconds total.",
+      "source_limit": "All six official project videos are stylized animated results. A photorealistic generated result is not publicly supplied and was not invented for this redesign."
+    }
+  },
+  "visual_check": "Browser rendered all three SVGs at both 360\u00d7216 and 200\u00d7120. Proof is cover-redesign-20261027/identity/proof.png in task scratch. No cropped captions or method names are included as pixels.",
+  "files_sha256": {
+    "images/paper-previews/faithfulfaces-research-cover.svg": "83e8bbfd43ed37425a3250c89fed4139f372feccedd2344bc71d776946ccaf51",
+    "images/paper-previews/ipa-research-cover.svg": "8736ec5c5a7d2b4e7e2ef64fd834935e323ac6dea2d0ebb1063793a121fea0f0",
+    "images/paper-previews/personavlog-research-cover.svg": "6e3af8e824f829fa0c7377fa6c2151e6a3b704d222abe682b29533b1b8617927",
+    "videos/faithfulfaces-preview.mp4": "197ede74d162ff9e3daab82370e900cc9d407eb2ad137a6df09dd8082800ed18"
+  },
+  "source_files_sha256": {
+    "faithfulfaces-guard.jpg": "7d863304b808d3780a182f0eb565ef9bbfec0a231253b3bf797204f49cfd3430",
+    "faithfulfaces-reference.png": "fe886cf53a65be2f4d90d20e6a28110ca65e403f2318bd2211801c58549d7d1c",
+    "faithfulfaces-turn.jpg": "a97ae07b89aa92dbc2f97ade82fbccba3928848aa4e6d8b27c7b5035ce5ee50a",
+    "ipa-xref873.png": "fa28e1dce6bcfc868705aa0ce8924894648229671a1e339518a514f05116ddec",
+    "ipa-xref893.png": "aebf6f39c224c2053340ca819cd3851214a2bbb7f52e76e6cc057384ab3d4810",
+    "personavlog-garden.jpg": "f638a805a2fe63404e806d1b8b3d7584811a35410a8bc9bd98930b9cd34dc75f",
+    "personavlog-reference.jpg": "2bf9905992695aa8affbd7195b2bf8a8dfa72b54ae4accb81d51e6336f92f684",
+    "personavlog-sketch.jpg": "0c73127354b1180294b958c5ec536c094e7751e9e46b31dd749f93c86ca42727",
+    "personavlog-walk.jpg": "9625a8bc8c56166e438819c569d6a84cde9fc7a44c385904d9247269d6c4e0d3"
+  }
+}

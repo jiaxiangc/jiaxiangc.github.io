@@ -1,0 +1,31 @@
+{
+  "paper": "https://arxiv.org/abs/2511.19049",
+  "figure": 3,
+  "source_url": "https://arxiv.org/html/2511.19049v1/fig/comparison_vc2.png",
+  "source_sha256": "9ae7745bbfa3370bbe3eea2b7a7738f2cb633e296b54ffc3d7e0dfc70ab90fa5",
+  "source_size": [
+    4214,
+    1172
+  ],
+  "crop_xywh": {
+    "videodpo": [
+      3786,
+      634,
+      410,
+      252
+    ],
+    "pgdpo": [
+      3786,
+      914,
+      410,
+      252
+    ]
+  },
+  "example": "Woman standing by the sea, final displayed frame",
+  "rows": {
+    "videodpo": "VideoDPO, third row",
+    "pgdpo": "Ours, fourth row"
+  },
+  "cover": "Full coastal scene: VideoDPO left 32%, PG-DPO right 68%; transparent labels and one comparison seam.",
+  "animation": "Seven-second editorial comparison wipe and identical 2% push on two published still frames. No synthesized subject motion or quality modification."
+}

@@ -1,0 +1,49 @@
+{
+  "paper": "ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models",
+  "project": "https://res-adapter.github.io/",
+  "source_page": "https://github.com/bytedance/res-adapter#resadapter-with-controlnet-for-image-to-image",
+  "source_description": "Official README labels the ControlNet comparison 840×1264, top row with ResAdapter, bottom row without. These are native paired sample 1 files.",
+  "sources": [
+    {
+      "file": "bird_1_Baseline.jpg",
+      "url": "https://raw.githubusercontent.com/bytedance/res-adapter/main/assets/misc/controlnet/bird_1_Baseline.jpg",
+      "sha256": "bc7e33a362e7c45dd8da230e4f2502381c2384c049e6e797321e701d11e10c07",
+      "size": [
+        840,
+        1264
+      ]
+    },
+    {
+      "file": "bird_1_ResAdapter.jpg",
+      "url": "https://raw.githubusercontent.com/bytedance/res-adapter/main/assets/misc/controlnet/bird_1_ResAdapter.jpg",
+      "sha256": "6321ac65afa2d734591fbcbffc2744a61bb860c748a5364140a759f885a42386",
+      "size": [
+        840,
+        1264
+      ]
+    }
+  ],
+  "crop_xywh": [
+    0,
+    190,
+    840,
+    1008
+  ],
+  "layout": "Baseline left; ResAdapter right. Both equal 360×432 viewports; 3px white divider; glyph-only in-image resolution and method labels with thin outline. No cards, chips, or title bars.",
+  "poster": "images/paper-previews/resadapter-cover.svg",
+  "poster_fallback": "images/paper-previews/resadapter-poster.jpg",
+  "video": "videos/resadapter-preview.mp4",
+  "video_format": {
+    "size": [
+      720,
+      432
+    ],
+    "fps": 24,
+    "duration_seconds": 7,
+    "audio": false
+  },
+  "video_description": "The left baseline stays fixed. A 7-second editorial comparison wipe reveals the authentic ResAdapter still over its baseline on the right. No subject motion, pose synthesis, or intentionally degraded baseline.",
+  "reviewed_alternatives": [
+    "All project gallery images, official repository README native assets, and all 11 paper pages. No official landscape/architecture example found; selected natural photographic wildlife with a clearly visible reported duplication failure."
+  ]
+}

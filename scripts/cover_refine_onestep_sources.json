@@ -1,0 +1,49 @@
+{
+  "paper": "Phased One-Step Adversarial Equilibrium for Video Diffusion Models",
+  "project_url": "https://v-pae.github.io/",
+  "paper_url": "https://arxiv.org/abs/2508.21019",
+  "paper_html": "https://arxiv.org/html/2508.21019v3",
+  "builder": "python3 scripts/cover_refine_onestep.py --source-dir /path/to/external/cache",
+  "source": {
+    "file": "vp-snow.mp4",
+    "url": "https://v-pae.github.io/assets/videos_pose_compressed/main/scene/%E7%8E%B0%E5%AE%9E%E4%B8%BB%E4%B9%89%E9%A3%8E%E6%A0%BC_1280x720_8.mp4",
+    "sha256": "155c402888302a68bbb6997afaad31c162f930a35d2911a82376ed2b6e8b6905",
+    "official_section": "V-PAE-1NFE I2V Generation for Scene",
+    "example": "Realistic style, scene 8: snow-covered forest with forward camera movement"
+  },
+  "verified_claims": {
+    "single_step": "The official gallery labels this specific snow-forest clip V-PAE-1NFE. The paper describes V-PAE as a single-step distillation framework.",
+    "speed_context": "Paper Table 1 and Section 4.2 compare V-PAE 1-NFE against a 100-NFE Wan2.1-I2V-14B baseline and report 100\u00d7 diffusion acceleration. This quantitative ratio is deliberately not printed on the cover, and no same-scene 100-NFE forest video is claimed."
+  },
+  "cover": {
+    "file": "images/paper-previews/v-pae-onestep-cover.svg",
+    "size": [
+      768,
+      432
+    ],
+    "image_frame_seconds": 1.0,
+    "layout": "Large 1 STEP cue in a compact left diagram area; monochrome schematic noise and one arrow point into the dominant original forest result. No top strip, promotional slogan or dense diagram.",
+    "source_image_processing": "FFmpeg extracts the original frame at 1.0 second; SVG uses an aspect-preserving centered crop for the forest panel. No generated-result pixels are retouched.",
+    "schematic_noise": "Native SVG feTurbulence with fixed seed 13, grayscale and contrast. This is an illustrative input-noise symbol, not a measured or recorded latent tensor, baseline output, or scientific result.",
+    "alt": "Schematic noise-to-result path labeled 1 STEP beside an official V-PAE snow-forest video frame.",
+    "sha256": "d47c815576267a0e20af2558104b6bbe26c72332a976a5f894be194b8d1961e6"
+  },
+  "video": {
+    "file": "videos/v-pae-preview.mp4",
+    "size": [
+      768,
+      432
+    ],
+    "duration_seconds": 5.0,
+    "fps": 24,
+    "source_interval_seconds": [
+      0.0,
+      5.0
+    ],
+    "edit": "Existing continuous official snow-forest result retained. Scale and FPS sampling only; native playback speed, no interpolation, no fabricated result, no animated schematic.",
+    "aria_label": "Phased OAE: an official one-step video result moving through a sunlit snowy forest at original speed.",
+    "sha256": "74ab5a17e614b54bbb862ea5d69ffc2f891918a5664e15d6a71a56d06bb6e764"
+  },
+  "candidate_review": "Reviewed official realistic rainy-window and tiger V-PAE/APT 1-NFE pairs. Both use the same evaluation count, so they do not communicate the reduction to one step as clearly. Direct 100-NFE Wan comparisons on the page use painted musicians or the previous queen portrait. The forest plus an explicit one-step sampling schematic better fits the requested visual direction without inventing a matched baseline.",
+  "proof": "Reviewed in CUA Chromium at full size and at 200\u00d7112.5 pixels. Screenshot is proof.jpg in the external onestep review directory."
+}
