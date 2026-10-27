@@ -34,7 +34,7 @@ without hover playback. Videos stop offscreen or when the page is hidden.
 
 Previews last 5–8 seconds. Covers show complete original paper figures on white, preserving every panel,
 label and original aspect ratio. No architecture is redrawn and no promotional overlay is added.
-Hunyuan-Game retains the previously selected reference/structure/result cover.
+Hunyuan-Game uses the complete original Figure 19 character-consistency pipeline.
 Covers remain separate from the existing hover clips.
 
 The selected artwork preserves each paper's own presentation:
@@ -45,7 +45,7 @@ The selected artwork preserves each paper's own presentation:
 - IPA: complete original preference-alignment framework.
 - Phased One-step: complete original diagram with all training phases.
 - ResAdapter: complete original pipeline, including all method-detail panels.
-- Hunyuan-Game: appearance reference, structural guidance and generated character.
+- Hunyuan-Game: complete original character-consistency pipeline, Figure 19.
 - HunyuanVideo: original model overview.
 - Beyond Reward Margin: complete original Figure 2 with both analysis panels.
 - PersonaVlog: complete published multimodal-agent framework.
@@ -66,17 +66,18 @@ medium. No extra text links are shown below the covers.
 python3 scripts/build_full_paper_covers.py
 ```
 
-This exports all nine whole figures from the saved originals, using proportional
+This exports all ten whole figures from the saved originals, using proportional
 scaling and white transparency compositing only. It performs no figure crops,
-rearrangement, relabeling, or synthesis. Hunyuan-Game keeps its approved cover.
+rearrangement, relabeling, or synthesis.
 To rebuild current clips, follow `current_clip_rebuild_order` in
-`scripts/video_preview_sources.json`: build the base clips, then apply the Game,
-FaithfulFaces, Reward Lightning, Phased One-Step, Beyond Reward Margin and
-ResAdapter overrides in that order. Run the full-figure exporter last. The Game
-batch writes an older ResAdapter clip, so the final ResAdapter override is required.
+`scripts/video_preview_sources.json`: build the base clips, apply the Hunyuan-Game
+batch, then rebuild the original ResAdapter clip with `--paper resadapter`.
+Run the full-figure exporter last. Hunyuan-Game keeps its selected later preview;
+the other nine use the previous base previews. The Game batch also writes a
+ResAdapter clip, so rebuilding the selected castle comparison afterward is required.
 Each step lists its source manifest; pass external cache/scratch directories to
-the builders as required. Legacy clip builders also emit obsolete cover drafts;
-only the active whole-figure exports and approved Game poster should be published.
+the builders as required. Legacy builders also emit inactive cover drafts;
+only the current whole-figure exports should be published as covers.
 
 Hy-Nomas resolves temporary video download URLs from the official model page at
 build time. If automatic downloading fails, save the original official media in

@@ -139,6 +139,20 @@
       "crop": null,
       "source_url": "https://raw.githubusercontent.com/Tencent-Hunyuan/Hy-Nomas/main/Hy_Nomas_Tech_Report.pdf",
       "figure": "Figure 1; complete embedded figure, PDF page 1. Extraction recorded in full_figure_hynomas_sources.json."
+    },
+    "hunyuan-game": {
+      "source": "images/paper-methods/hunyuan-game.png",
+      "source_sha256": "2a2c1974d0c781ce0a735bdd018fa62954a4ccea58d240d837933cf503b4a804",
+      "file": "images/paper-previews/hunyuan-game-full-paper-cover.png",
+      "dimensions": [
+        1200,
+        347
+      ],
+      "sha256": "3c220e7fbe426d067649a58cef6d4a68cfe64c8f32732b3f9906f9c070c7df47",
+      "operation": "Whole image; proportional scaling only, with original transparency composited onto white.",
+      "crop": null,
+      "source_url": "https://arxiv.org/html/2505.14135v1/character_consistency_pipeline.png",
+      "figure": "Figure 19; complete original character-consistency pipeline, preserving reference, structure, text conditioning, DiT and decoded output."
     }
   }
 }

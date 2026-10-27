@@ -58,8 +58,14 @@
     element.addEventListener('pointerleave', event => {
       if (event.pointerType !== 'touch') state.reset();
     });
-    // The transparent cover-sized button also supports touch and keyboard use.
-    button.addEventListener('click', () => {
+    // A mouse click must not cancel playback just started by pointerenter.
+    // Touch and keyboard activation still toggle playback explicitly.
+    button.addEventListener('click', event => {
+      if (event.detail > 0 && state.hovered && !reducedMotion.matches) {
+        state.pausedByUser = false;
+        state.sync();
+        return;
+      }
       const playing = shouldPlay();
       state.pausedByUser = playing;
       state.manualPlay = !playing;
@@ -74,7 +80,10 @@
       state.pausedByUser = true;
       state.sync();
     });
-    video.addEventListener('pause', showCover);
+    video.addEventListener('pause', () => {
+      // Ignore a queued pause event if a newer request has resumed playback.
+      if (video.paused) showCover();
+    });
     video.addEventListener('playing', () => {
       if (shouldPlay()) element.classList.add('is-playing');
       else video.pause();

@@ -16,6 +16,7 @@ SOURCES = {
     'ipa': 'ipa.png',
     'v-pae': 'v-pae.jpg',
     'resadapter': 'resadapter.png',
+    'hunyuan-game': 'hunyuan-game.png',
     'hunyuanvideo': 'hunyuanvideo-overall.png',
     'beyond-reward': 'beyond-reward.png',
     'personavlog': 'personavlog.jpg',
@@ -52,7 +53,7 @@ def main():
                             '-filter_complex',graph,'-map','[out]','-frames:v','1',str(out)],check=True)
             operation = 'Whole image; proportional scaling only, with original transparency composited onto white.'
         size = Image.open(out).size
-        manifest['covers'][slug] = {'source':str(src.relative_to(ROOT)), 'source_sha256':digest(src),
+        manifest['covers'][slug] = {**manifest['covers'].get(slug, {}), 'source':str(src.relative_to(ROOT)), 'source_sha256':digest(src),
                                    'file':str(out.relative_to(ROOT)), 'dimensions':list(size),
                                    'sha256':digest(out), 'operation':operation, 'crop':None}
     manifest_path.write_text(json.dumps(manifest,indent=2)+'\n')
