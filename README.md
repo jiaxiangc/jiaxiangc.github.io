@@ -1,6 +1,6 @@
 # jiaxiangc.github.io
 
-Personal academic homepage of **Jiaxiang Cheng**, Researcher at Tencent HY.
+Personal academic homepage of **Jiaxiang Cheng**, Researcher at Tencent Hy.
 
 Live site: <https://jiaxiangc.github.io>
 
